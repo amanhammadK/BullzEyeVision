@@ -61,6 +61,12 @@ export default {
           border: "var(--sidebar-border)",
           ring: "var(--sidebar-ring)",
         },
+        // BullzEye Custom Colors
+        "deep-space": "hsl(var(--deep-space))",
+        "dark-navy": "hsl(var(--dark-navy))",
+        "signal-red": "hsl(var(--signal-red))",
+        "matrix-green": "hsl(var(--matrix-green))",
+        "cool-gray": "hsl(var(--cool-gray))",
       },
       keyframes: {
         "accordion-down": {
