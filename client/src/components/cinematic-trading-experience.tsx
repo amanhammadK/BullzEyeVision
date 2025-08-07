@@ -4,8 +4,210 @@ import { Sphere, Text, OrbitControls } from '@react-three/drei';
 import { Button } from "@/components/ui/button";
 import { ArrowRight, BarChart3, Zap, Shield, Target, Brain, Activity, Crosshair, Play } from "lucide-react";
 import * as THREE from 'three';
-// GSAP removed - not used in this component
-// All animations are handled by Three.js useFrame hooks
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+// Register GSAP ScrollTrigger
+if (typeof window !== 'undefined') {
+  gsap.registerPlugin(ScrollTrigger);
+}
+
+// CANVAS-BASED CANDLESTICK CHART BACKGROUND
+interface CandlestickData {
+  open: number;
+  high: number;
+  low: number;
+  close: number;
+  x: number;
+  isGreen: boolean;
+}
+
+function CandlestickCanvasBackground() {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const animationRef = useRef<number>();
+  const candlesRef = useRef<CandlestickData[]>([]);
+  const offsetRef = useRef(0);
+  const lastTimeRef = useRef(0);
+
+  // Generate synthetic candlestick data
+  const generateCandles = (count: number, startX: number = 0): CandlestickData[] => {
+    const candles: CandlestickData[] = [];
+    let price = 67000 + Math.random() * 3000; // Starting price around $67k-$70k
+
+    for (let i = 0; i < count; i++) {
+      const change = (Math.random() - 0.5) * 800; // Price change
+      const open = price;
+      const close = price + change;
+      const high = Math.max(open, close) + Math.random() * 200;
+      const low = Math.min(open, close) - Math.random() * 200;
+
+      candles.push({
+        open,
+        high,
+        low,
+        close,
+        x: startX + i * 12, // 12px spacing between candles
+        isGreen: close > open
+      });
+
+      price = close;
+    }
+
+    return candles;
+  };
+
+  // Initialize candles
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const candleCount = Math.ceil(window.innerWidth / 12) + 20; // Extra candles for smooth scrolling
+      candlesRef.current = generateCandles(candleCount, -240); // Start off-screen
+    }
+  }, []);
+
+  // Canvas drawing function
+  const drawCandles = (ctx: CanvasRenderingContext2D, candles: CandlestickData[], offset: number) => {
+    const canvas = ctx.canvas;
+    const centerY = canvas.height * 0.6; // Position chart in lower portion
+    const priceScale = 0.008; // Scale factor for price to pixels
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    candles.forEach((candle) => {
+      const x = candle.x + offset;
+
+      // Skip candles outside viewport (with buffer)
+      if (x < -20 || x > canvas.width + 20) return;
+
+      const openY = centerY - (candle.open - 67000) * priceScale;
+      const closeY = centerY - (candle.close - 67000) * priceScale;
+      const highY = centerY - (candle.high - 67000) * priceScale;
+      const lowY = centerY - (candle.low - 67000) * priceScale;
+
+      const bodyTop = Math.min(openY, closeY);
+      const bodyBottom = Math.max(openY, closeY);
+      const bodyHeight = Math.max(bodyBottom - bodyTop, 2); // Minimum 2px height
+
+      // Set colors with low opacity
+      const color = candle.isGreen ? 'rgba(0, 255, 136, 0.25)' : 'rgba(255, 68, 119, 0.25)';
+      const wickColor = candle.isGreen ? 'rgba(0, 255, 136, 0.2)' : 'rgba(255, 68, 119, 0.2)';
+
+      // Draw wick
+      ctx.strokeStyle = wickColor;
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(x, highY);
+      ctx.lineTo(x, lowY);
+      ctx.stroke();
+
+      // Draw body
+      ctx.fillStyle = color;
+      ctx.fillRect(x - 4, bodyTop, 8, bodyHeight);
+
+      // Draw body outline for better definition
+      ctx.strokeStyle = color.replace('0.25', '0.4');
+      ctx.lineWidth = 1;
+      ctx.strokeRect(x - 4, bodyTop, 8, bodyHeight);
+    });
+  };
+
+  // Animation loop
+  const animate = (currentTime: number) => {
+    if (!canvasRef.current) return;
+
+    const ctx = canvasRef.current.getContext('2d');
+    if (!ctx) return;
+
+    // Control animation speed (60fps target)
+    if (currentTime - lastTimeRef.current >= 16.67) {
+      // Move candles from right to left
+      offsetRef.current -= 0.5; // Adjust speed as needed
+
+      // Reset and regenerate when candles move too far left
+      if (offsetRef.current <= -240) {
+        offsetRef.current = 0;
+        const candleCount = Math.ceil(window.innerWidth / 12) + 20;
+        candlesRef.current = generateCandles(candleCount, -240);
+      }
+
+      drawCandles(ctx, candlesRef.current, offsetRef.current);
+      lastTimeRef.current = currentTime;
+    }
+
+    animationRef.current = requestAnimationFrame(animate);
+  };
+
+  // Setup canvas and start animation
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    // Set canvas size
+    const resizeCanvas = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    };
+
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+
+    // Start animation
+    animationRef.current = requestAnimationFrame(animate);
+
+    return () => {
+      window.removeEventListener('resize', resizeCanvas);
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current);
+      }
+    };
+  }, []);
+
+  // Setup scroll effects with GSAP
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas || typeof window === 'undefined') return;
+
+    const scrollTrigger = ScrollTrigger.create({
+      trigger: canvas,
+      start: "top top",
+      end: "bottom top",
+      scrub: 1,
+      onUpdate: (self) => {
+        const progress = self.progress;
+
+        // Apply distortion effects
+        const blur = progress * 8;
+        const opacity = Math.max(0.25 - progress * 0.25, 0);
+        const scale = 1 + progress * 0.1;
+
+        gsap.set(canvas, {
+          filter: `blur(${blur}px)`,
+          opacity: opacity,
+          scale: scale,
+          transformOrigin: "center center"
+        });
+      }
+    });
+
+    return () => {
+      scrollTrigger.kill();
+    };
+  }, []);
+
+  return (
+    <canvas
+      ref={canvasRef}
+      className="fixed inset-0 w-full h-full pointer-events-none"
+      style={{
+        zIndex: 1,
+        opacity: 0.25,
+        mixBlendMode: 'normal'
+      }}
+    />
+  );
+}
 
 // 3D MARKET GLOBE - ROTATING HUD ELEMENT
 function MarketGlobe() {
@@ -728,6 +930,9 @@ export default function CinematicTradingExperience() {
         `
       }}
     >
+      {/* Canvas Candlestick Background */}
+      <CandlestickCanvasBackground />
+
       {/* HUD Overlay */}
       <HUDOverlay visible={showHUD} />
 
