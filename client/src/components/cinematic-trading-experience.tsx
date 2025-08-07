@@ -87,46 +87,94 @@ function MarketGlobe() {
   );
 }
 
-// DEBUG TEST CUBE - Remove after confirming scene renders
-function DebugTestCube() {
+// ANIMATED TEST OBJECTS - Prove React Three Fiber is working
+function AnimatedTestObjects() {
   const cubeRef = useRef<THREE.Mesh>(null);
+  const sphereRef = useRef<THREE.Mesh>(null);
+  const blueCubeRef = useRef<THREE.Mesh>(null);
+  const torusRef = useRef<THREE.Mesh>(null);
 
   useFrame((state) => {
     try {
-      if (cubeRef.current && state.clock) {
-        cubeRef.current.rotation.x = state.clock.elapsedTime * 1.0;
-        cubeRef.current.rotation.y = state.clock.elapsedTime * 0.7;
-        cubeRef.current.rotation.z = state.clock.elapsedTime * 0.5;
+      const time = state.clock.elapsedTime;
 
-        // Add pulsing scale for visibility
-        const scale = 1.5 + Math.sin(state.clock.elapsedTime * 2) * 0.5;
+      // Animate red cube
+      if (cubeRef.current) {
+        cubeRef.current.rotation.x = time * 1.0;
+        cubeRef.current.rotation.y = time * 0.7;
+        cubeRef.current.rotation.z = time * 0.5;
+        const scale = 1.5 + Math.sin(time * 2) * 0.5;
         cubeRef.current.scale.setScalar(scale);
+        cubeRef.current.position.y = Math.sin(time * 1.5) * 1.0;
+      }
 
-        // Add floating motion
-        cubeRef.current.position.y = Math.sin(state.clock.elapsedTime * 1.5) * 1.0;
+      // Animate green sphere
+      if (sphereRef.current) {
+        sphereRef.current.rotation.x = time * 0.5;
+        sphereRef.current.rotation.y = time * 1.2;
+        sphereRef.current.position.y = Math.cos(time * 1.8) * 0.8;
+      }
+
+      // Animate blue cube
+      if (blueCubeRef.current) {
+        blueCubeRef.current.rotation.x = time * 0.8;
+        blueCubeRef.current.rotation.z = time * 1.1;
+        blueCubeRef.current.position.y = Math.sin(time * 2.2) * 0.6;
+      }
+
+      // Animate yellow torus
+      if (torusRef.current) {
+        torusRef.current.rotation.x = time * 0.3;
+        torusRef.current.rotation.y = time * 0.9;
+        torusRef.current.rotation.z = time * 0.6;
       }
     } catch (error) {
-      console.error('DebugTestCube animation error:', error);
+      console.error('AnimatedTestObjects animation error:', error);
     }
   });
 
   useEffect(() => {
-    console.log("DebugTestCube component mounted");
-    return () => console.log("DebugTestCube component unmounted");
+    console.log("🎯 AnimatedTestObjects component mounted - React Three Fiber is working!");
+    return () => console.log("AnimatedTestObjects component unmounted");
   }, []);
 
-  console.log("DebugTestCube rendering at position [0, 0, 0]"); // Debug log
-
   return (
-    <mesh ref={cubeRef} position={[0, 0, 3]}>
-      <boxGeometry args={[4, 4, 4]} />
-      <meshStandardMaterial
-        color="#ff0000"
-        emissive="#ff0000"
-        emissiveIntensity={0.5}
-        transparent={false}
-      />
-    </mesh>
+    <group>
+      {/* SUCCESS MESSAGE */}
+      <Text
+        position={[0, 3, 0]}
+        fontSize={1.5}
+        color="#00ff00"
+        anchorX="center"
+        anchorY="middle"
+      >
+        ✅ REACT THREE FIBER WORKING!
+      </Text>
+
+      {/* IMPOSSIBLE TO MISS RED CUBE */}
+      <mesh ref={cubeRef} position={[0, 0, 0]}>
+        <boxGeometry args={[4, 4, 4]} />
+        <meshBasicMaterial color="#ff0000" />
+      </mesh>
+
+      {/* BRIGHT GREEN SPHERE */}
+      <mesh ref={sphereRef} position={[6, 0, 0]}>
+        <sphereGeometry args={[2, 16, 16]} />
+        <meshBasicMaterial color="#00ff00" />
+      </mesh>
+
+      {/* BRIGHT BLUE CUBE */}
+      <mesh ref={blueCubeRef} position={[-6, 0, 0]}>
+        <boxGeometry args={[3, 3, 3]} />
+        <meshBasicMaterial color="#0000ff" />
+      </mesh>
+
+      {/* ROTATING WIREFRAME TORUS */}
+      <mesh ref={torusRef} position={[0, -4, 0]}>
+        <torusGeometry args={[3, 1, 16, 100]} />
+        <meshBasicMaterial color="#ffff00" wireframe />
+      </mesh>
+    </group>
   );
 }
 
@@ -713,23 +761,8 @@ export default function CinematicTradingExperience() {
           {/* SUPER BRIGHT LIGHTING */}
           <ambientLight intensity={2.0} />
 
-          {/* IMPOSSIBLE TO MISS RED CUBE */}
-          <mesh position={[0, 0, 0]}>
-            <boxGeometry args={[4, 4, 4]} />
-            <meshBasicMaterial color="#ff0000" />
-          </mesh>
-
-          {/* BRIGHT GREEN SPHERE */}
-          <mesh position={[6, 0, 0]}>
-            <sphereGeometry args={[2, 16, 16]} />
-            <meshBasicMaterial color="#00ff00" />
-          </mesh>
-
-          {/* BLUE CUBE FOR CONTRAST */}
-          <mesh position={[-6, 0, 0]}>
-            <boxGeometry args={[3, 3, 3]} />
-            <meshBasicMaterial color="#0000ff" />
-          </mesh>
+          {/* ANIMATED TEST OBJECTS */}
+          <AnimatedTestObjects />
         </Canvas>
 
         {/* Enhanced Atmospheric Overlays */}
