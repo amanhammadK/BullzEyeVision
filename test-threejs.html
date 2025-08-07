@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Three.js Test</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #000;
+            overflow: hidden;
+            border: 10px solid red;
+        }
+        #container {
+            width: 100vw;
+            height: 100vh;
+            border: 5px solid yellow;
+            background: rgba(255, 0, 0, 0.1);
+        }
+        #info {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            color: white;
+            font-family: monospace;
+            z-index: 100;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="info">
+        <div>Three.js Test Status:</div>
+        <div id="status">Loading...</div>
+        <div id="webgl-support"></div>
+        <div id="objects-count"></div>
+    </div>
+    <div id="container"></div>
+
+    <!-- Try multiple CDN sources for Three.js -->
+    <script src="https://unpkg.com/three@0.160.1/build/three.min.js"></script>
+    <script>
+        // Fallback CDN if first one fails
+        if (typeof THREE === 'undefined') {
+            console.log('First CDN failed, trying fallback...');
+            const script = document.createElement('script');
+            script.src = 'https://cdn.jsdelivr.net/npm/three@0.160.1/build/three.min.js';
+            script.onload = function() {
+                console.log('Fallback CDN loaded successfully');
+                initThreeJS();
+            };
+            script.onerror = function() {
+                console.error('Both CDNs failed to load Three.js');
+                document.getElementById('status').textContent = 'ERROR: Could not load Three.js library';
+                document.getElementById('status').style.color = 'red';
+            };
+            document.head.appendChild(script);
+        } else {
+            console.log('Primary CDN loaded successfully');
+            initThreeJS();
+        }
+
+        function initThreeJS() {
+            console.log('🎯 Starting Three.js test...');
+
+            const statusEl = document.getElementById('status');
+            const webglEl = document.getElementById('webgl-support');
+            const objectsEl = document.getElementById('objects-count');
+        
+        // Check WebGL support
+        function checkWebGLSupport() {
+            try {
+                const canvas = document.createElement('canvas');
+                const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+                return !!gl;
+            } catch (e) {
+                return false;
+            }
+        }
+        
+        const hasWebGL = checkWebGLSupport();
+        webglEl.textContent = `WebGL Support: ${hasWebGL ? 'YES' : 'NO'}`;
+        
+        if (!hasWebGL) {
+            statusEl.textContent = 'ERROR: WebGL not supported';
+            statusEl.style.color = 'red';
+        } else {
+            try {
+                // Create scene
+                const scene = new THREE.Scene();
+                console.log('✅ Scene created');
+                
+                // Create camera
+                const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+                camera.position.z = 5;
+                console.log('✅ Camera created');
+                
+                // Create renderer
+                const renderer = new THREE.WebGLRenderer({ antialias: true });
+                renderer.setSize(window.innerWidth, window.innerHeight);
+                renderer.setClearColor(0x000000);
+                document.getElementById('container').appendChild(renderer.domElement);
+                console.log('✅ Renderer created and added to DOM');
+                
+                // Create HUGE red cube - impossible to miss
+                const cubeGeometry = new THREE.BoxGeometry(4, 4, 4);
+                const cubeMaterial = new THREE.MeshBasicMaterial({ 
+                    color: 0xff0000,
+                    wireframe: false
+                });
+                const cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
+                cube.position.set(0, 0, 0);
+                scene.add(cube);
+                console.log('✅ Red cube added');
+                
+                // Create green sphere
+                const sphereGeometry = new THREE.SphereGeometry(2, 32, 32);
+                const sphereMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+                const sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
+                sphere.position.set(6, 0, 0);
+                scene.add(sphere);
+                console.log('✅ Green sphere added');
+                
+                // Create blue cube
+                const blueCubeGeometry = new THREE.BoxGeometry(3, 3, 3);
+                const blueCubeMaterial = new THREE.MeshBasicMaterial({ color: 0x0000ff });
+                const blueCube = new THREE.Mesh(blueCubeGeometry, blueCubeMaterial);
+                blueCube.position.set(-6, 0, 0);
+                scene.add(blueCube);
+                console.log('✅ Blue cube added');
+                
+                // Add lighting (even though we're using basic materials)
+                const ambientLight = new THREE.AmbientLight(0xffffff, 1.0);
+                scene.add(ambientLight);
+                console.log('✅ Lighting added');
+                
+                statusEl.textContent = 'SUCCESS: Scene created';
+                statusEl.style.color = 'green';
+                objectsEl.textContent = `Objects in scene: ${scene.children.length}`;
+                
+                // Animation loop
+                function animate() {
+                    requestAnimationFrame(animate);
+                    
+                    // Rotate objects
+                    cube.rotation.x += 0.01;
+                    cube.rotation.y += 0.01;
+                    
+                    sphere.rotation.x += 0.005;
+                    sphere.rotation.y += 0.005;
+                    
+                    blueCube.rotation.x += 0.015;
+                    blueCube.rotation.y += 0.015;
+                    
+                    renderer.render(scene, camera);
+                }
+                
+                animate();
+                console.log('✅ Animation loop started');
+
+                // Handle window resize
+                window.addEventListener('resize', () => {
+                    camera.aspect = window.innerWidth / window.innerHeight;
+                    camera.updateProjectionMatrix();
+                    renderer.setSize(window.innerWidth, window.innerHeight);
+                });
+
+            } catch (error) {
+                console.error('❌ Three.js error:', error);
+                statusEl.textContent = `ERROR: ${error.message}`;
+                statusEl.style.color = 'red';
+            }
+        }
+    </script>
+</body>
+</html>

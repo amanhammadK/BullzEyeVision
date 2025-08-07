@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Basic WebGL Test</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #000;
+            overflow: hidden;
+            border: 10px solid red;
+            font-family: monospace;
+            color: white;
+        }
+        #container {
+            width: 100vw;
+            height: 100vh;
+            border: 5px solid yellow;
+            background: rgba(255, 0, 0, 0.1);
+            position: relative;
+        }
+        #info {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            color: white;
+            z-index: 100;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 10px;
+            max-width: 300px;
+        }
+        canvas {
+            border: 3px solid cyan;
+        }
+    </style>
+</head>
+<body>
+    <div id="info">
+        <div><strong>WebGL Basic Test</strong></div>
+        <div id="status">Testing...</div>
+        <div id="webgl-support"></div>
+        <div id="canvas-info"></div>
+        <div id="render-info"></div>
+    </div>
+    <div id="container"></div>
+
+    <script>
+        console.log('🎯 Starting basic WebGL test...');
+        
+        const statusEl = document.getElementById('status');
+        const webglEl = document.getElementById('webgl-support');
+        const canvasEl = document.getElementById('canvas-info');
+        const renderEl = document.getElementById('render-info');
+        
+        // Test 1: WebGL Support
+        function testWebGLSupport() {
+            try {
+                const canvas = document.createElement('canvas');
+                const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+                if (gl) {
+                    webglEl.innerHTML = '✅ WebGL: SUPPORTED';
+                    webglEl.style.color = 'green';
+                    return gl;
+                } else {
+                    webglEl.innerHTML = '❌ WebGL: NOT SUPPORTED';
+                    webglEl.style.color = 'red';
+                    return null;
+                }
+            } catch (e) {
+                webglEl.innerHTML = `❌ WebGL: ERROR - ${e.message}`;
+                webglEl.style.color = 'red';
+                return null;
+            }
+        }
+        
+        // Test 2: Canvas Creation
+        function createCanvas() {
+            try {
+                const canvas = document.createElement('canvas');
+                canvas.width = 800;
+                canvas.height = 600;
+                canvas.style.width = '100%';
+                canvas.style.height = '100%';
+                canvas.style.maxWidth = '800px';
+                canvas.style.maxHeight = '600px';
+                
+                document.getElementById('container').appendChild(canvas);
+                canvasEl.innerHTML = '✅ Canvas: CREATED (800x600)';
+                canvasEl.style.color = 'green';
+                return canvas;
+            } catch (e) {
+                canvasEl.innerHTML = `❌ Canvas: ERROR - ${e.message}`;
+                canvasEl.style.color = 'red';
+                return null;
+            }
+        }
+        
+        // Test 3: Basic WebGL Rendering
+        function testBasicRendering(canvas) {
+            try {
+                const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+                if (!gl) {
+                    throw new Error('Could not get WebGL context');
+                }
+                
+                // Set viewport
+                gl.viewport(0, 0, canvas.width, canvas.height);
+                
+                // Clear with bright red color
+                gl.clearColor(1.0, 0.0, 0.0, 1.0);
+                gl.clear(gl.COLOR_BUFFER_BIT);
+                
+                renderEl.innerHTML = '✅ Render: RED SCREEN';
+                renderEl.style.color = 'green';
+                statusEl.innerHTML = '✅ SUCCESS: WebGL working!';
+                statusEl.style.color = 'green';
+                
+                // Animate color changes
+                let hue = 0;
+                function animate() {
+                    hue += 0.01;
+                    const r = Math.sin(hue) * 0.5 + 0.5;
+                    const g = Math.sin(hue + 2) * 0.5 + 0.5;
+                    const b = Math.sin(hue + 4) * 0.5 + 0.5;
+                    
+                    gl.clearColor(r, g, b, 1.0);
+                    gl.clear(gl.COLOR_BUFFER_BIT);
+                    
+                    requestAnimationFrame(animate);
+                }
+                animate();
+                
+                return true;
+            } catch (e) {
+                renderEl.innerHTML = `❌ Render: ERROR - ${e.message}`;
+                renderEl.style.color = 'red';
+                statusEl.innerHTML = `❌ FAILED: ${e.message}`;
+                statusEl.style.color = 'red';
+                return false;
+            }
+        }
+        
+        // Run all tests
+        function runTests() {
+            console.log('Step 1: Testing WebGL support...');
+            const gl = testWebGLSupport();
+            
+            if (!gl) {
+                statusEl.innerHTML = '❌ FAILED: WebGL not supported';
+                statusEl.style.color = 'red';
+                return;
+            }
+            
+            console.log('Step 2: Creating canvas...');
+            const canvas = createCanvas();
+            
+            if (!canvas) {
+                statusEl.innerHTML = '❌ FAILED: Could not create canvas';
+                statusEl.style.color = 'red';
+                return;
+            }
+            
+            console.log('Step 3: Testing basic rendering...');
+            const renderSuccess = testBasicRendering(canvas);
+            
+            if (renderSuccess) {
+                console.log('✅ All tests passed!');
+            } else {
+                console.log('❌ Rendering test failed');
+            }
+        }
+        
+        // Start tests when page loads
+        window.addEventListener('load', () => {
+            console.log('Page loaded, starting tests...');
+            runTests();
+        });
+        
+        // Also start immediately in case load event already fired
+        if (document.readyState === 'complete') {
+            console.log('Page already loaded, starting tests...');
+            runTests();
+        }
+    </script>
+</body>
+</html>
