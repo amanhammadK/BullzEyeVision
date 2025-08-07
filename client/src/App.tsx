@@ -13,8 +13,7 @@ import CinematicTradingExperience from "@/components/cinematic-trading-experienc
 function Router() {
   return (
     <Switch>
-      <Route path="/" component={CinematicTradingExperience} />
-      <Route path="/home" component={Home} />
+      <Route path="/" component={Home} />
       <Route path="/test" component={CinematicTradingExperience} />
       <Route path="/analytics-dashboard" component={AnalyticsDashboard} />
       <Route path="/trading-interface" component={TradingInterface} />

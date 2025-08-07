@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>React Three Fiber Test</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #000;
+            overflow: hidden;
+            border: 10px solid red;
+            font-family: monospace;
+            color: white;
+        }
+        #container {
+            width: 100vw;
+            height: 100vh;
+            border: 5px solid yellow;
+            background: rgba(255, 0, 0, 0.1);
+            position: relative;
+        }
+        #info {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            color: white;
+            z-index: 100;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 10px;
+            max-width: 400px;
+        }
+        #react-root {
+            width: 100%;
+            height: 100%;
+            border: 3px solid cyan;
+        }
+    </style>
+</head>
+<body>
+    <div id="info">
+        <div><strong>React Three Fiber Test</strong></div>
+        <div id="status">Loading React and Three.js...</div>
+        <div id="react-status"></div>
+        <div id="three-status"></div>
+        <div id="fiber-status"></div>
+    </div>
+    <div id="container">
+        <div id="react-root"></div>
+    </div>
+
+    <!-- Load React and dependencies from CDN -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/three@0.160.1/build/three.min.js"></script>
+
+    <!-- Try multiple CDN sources for React Three Fiber -->
+    <script src="https://cdn.jsdelivr.net/npm/@react-three/fiber@8.15.0/dist/index.umd.js"></script>
+    <script>
+        // Fallback CDN if first one fails
+        if (typeof ReactThreeFiber === 'undefined') {
+            console.log('First React Three Fiber CDN failed, trying fallback...');
+            const script = document.createElement('script');
+            script.src = 'https://unpkg.com/@react-three/fiber@8.15.0/dist/index.umd.js';
+            script.onload = function() {
+                console.log('Fallback React Three Fiber CDN loaded');
+                if (typeof ReactThreeFiber !== 'undefined') {
+                    console.log('✅ React Three Fiber loaded from fallback CDN');
+                    waitForLibraries();
+                }
+            };
+            script.onerror = function() {
+                console.error('Both React Three Fiber CDNs failed');
+                document.getElementById('fiber-status').innerHTML = '❌ React Three Fiber: ALL CDNs FAILED';
+                document.getElementById('fiber-status').style.color = 'red';
+            };
+            document.head.appendChild(script);
+        }
+    </script>
+
+    <script>
+        console.log('🎯 Starting React Three Fiber test...');
+        
+        const statusEl = document.getElementById('status');
+        const reactStatusEl = document.getElementById('react-status');
+        const threeStatusEl = document.getElementById('three-status');
+        const fiberStatusEl = document.getElementById('fiber-status');
+        
+        // Check if libraries loaded
+        function checkLibraries() {
+            // Check React
+            if (typeof React !== 'undefined') {
+                reactStatusEl.innerHTML = '✅ React: LOADED';
+                reactStatusEl.style.color = 'green';
+            } else {
+                reactStatusEl.innerHTML = '❌ React: FAILED';
+                reactStatusEl.style.color = 'red';
+                return false;
+            }
+            
+            // Check ReactDOM
+            if (typeof ReactDOM !== 'undefined') {
+                reactStatusEl.innerHTML += ' & ReactDOM: LOADED';
+            } else {
+                reactStatusEl.innerHTML += ' & ReactDOM: FAILED';
+                reactStatusEl.style.color = 'red';
+                return false;
+            }
+            
+            // Check Three.js
+            if (typeof THREE !== 'undefined') {
+                threeStatusEl.innerHTML = '✅ Three.js: LOADED';
+                threeStatusEl.style.color = 'green';
+            } else {
+                threeStatusEl.innerHTML = '❌ Three.js: FAILED';
+                threeStatusEl.style.color = 'red';
+                return false;
+            }
+            
+            // Check React Three Fiber
+            if (typeof ReactThreeFiber !== 'undefined') {
+                fiberStatusEl.innerHTML = '✅ React Three Fiber: LOADED';
+                fiberStatusEl.style.color = 'green';
+            } else {
+                fiberStatusEl.innerHTML = '❌ React Three Fiber: FAILED';
+                fiberStatusEl.style.color = 'red';
+                return false;
+            }
+            
+            return true;
+        }
+        
+        // Create React Three Fiber scene
+        function createScene() {
+            try {
+                const { Canvas } = ReactThreeFiber;
+                const { createElement: h } = React;
+                
+                // Create a simple rotating cube component
+                function RotatingCube() {
+                    const meshRef = React.useRef();
+                    
+                    // Animation loop
+                    ReactThreeFiber.useFrame((state) => {
+                        if (meshRef.current) {
+                            meshRef.current.rotation.x = state.clock.elapsedTime;
+                            meshRef.current.rotation.y = state.clock.elapsedTime * 0.7;
+                        }
+                    });
+                    
+                    return h('mesh', { ref: meshRef, position: [0, 0, 0] },
+                        h('boxGeometry', { args: [3, 3, 3] }),
+                        h('meshBasicMaterial', { color: '#ff0000' })
+                    );
+                }
+                
+                // Create the main app component
+                function App() {
+                    return h(Canvas, {
+                        camera: { position: [0, 0, 5], fov: 75 },
+                        style: { width: '100%', height: '100%', background: '#000000' },
+                        onCreated: ({ gl, scene, camera }) => {
+                            console.log('🎯 REACT THREE FIBER CANVAS CREATED!', {
+                                renderer: gl.domElement.tagName,
+                                sceneChildren: scene.children.length,
+                                cameraPosition: camera.position
+                            });
+                            statusEl.innerHTML = '✅ SUCCESS: React Three Fiber working!';
+                            statusEl.style.color = 'green';
+                        }
+                    },
+                        h('ambientLight', { intensity: 1.0 }),
+                        h(RotatingCube)
+                    );
+                }
+                
+                // Render the app
+                const root = ReactDOM.createRoot(document.getElementById('react-root'));
+                root.render(h(App));
+                
+            } catch (error) {
+                console.error('❌ React Three Fiber error:', error);
+                statusEl.innerHTML = '❌ ERROR: ' + error.message;
+                statusEl.style.color = 'red';
+            }
+        }
+        
+        // Wait for all libraries to load
+        function waitForLibraries() {
+            let attempts = 0;
+            const maxAttempts = 50;
+            
+            const checkInterval = setInterval(() => {
+                attempts++;
+                
+                if (checkLibraries()) {
+                    clearInterval(checkInterval);
+                    console.log('✅ All libraries loaded, creating scene...');
+                    createScene();
+                } else if (attempts >= maxAttempts) {
+                    clearInterval(checkInterval);
+                    statusEl.innerHTML = '❌ TIMEOUT: Libraries failed to load';
+                    statusEl.style.color = 'red';
+                }
+            }, 100);
+        }
+        
+        // Start the test
+        window.addEventListener('load', () => {
+            console.log('Page loaded, waiting for libraries...');
+            waitForLibraries();
+        });
+        
+        // Also start immediately in case load event already fired
+        if (document.readyState === 'complete') {
+            console.log('Page already loaded, waiting for libraries...');
+            waitForLibraries();
+        }
+    </script>
+</body>
+</html>

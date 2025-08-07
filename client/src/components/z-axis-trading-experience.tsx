@@ -240,7 +240,7 @@ export default function ZAxisTradingExperience() {
       </div>
 
       {/* 3D Canvas with Z-axis camera movement */}
-      <div className="fixed inset-0 z-10" style={{ border: '5px solid red', background: 'rgba(255, 0, 0, 0.1)' }}>
+      <div className="fixed inset-0 z-10">
         <Canvas
           camera={{
             position: [0, 0, 10],
@@ -248,7 +248,6 @@ export default function ZAxisTradingExperience() {
             near: 0.1,
             far: 100
           }}
-          style={{ border: '3px solid yellow' }}
           onCreated={({ gl, scene, camera }) => {
             console.log('🎯 Z-AXIS CANVAS CREATED!', {
               renderer: gl.domElement.tagName,
@@ -258,17 +257,11 @@ export default function ZAxisTradingExperience() {
             });
           }}
         >
-          {/* SUPER BRIGHT TEST CUBE */}
-          <mesh position={[0, 0, 0]}>
-            <boxGeometry args={[4, 4, 4]} />
-            <meshBasicMaterial color="#ff0000" />
-          </mesh>
-
           {/* Camera Controller for Z-axis movement */}
           <CameraController cameraZ={cameraZ} velocity={velocity} isScrolling={isScrolling} />
 
           {/* Lighting Setup */}
-          <ambientLight intensity={2.0} />
+          <ambientLight intensity={0.3} />
           <pointLight position={[10, 10, 5]} intensity={0.8} color="#00ff66" />
           <pointLight position={[-10, -10, 5]} intensity={0.5} color="#ffffff" />
           <directionalLight position={[0, 0, 10]} intensity={0.3} color="#ffffff" />
