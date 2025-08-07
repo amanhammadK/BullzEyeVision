@@ -8,11 +8,13 @@ import Home from "@/pages/home";
 import AnalyticsDashboard from "@/pages/analytics-dashboard";
 import TradingInterface from "@/pages/trading-interface";
 import TechnicalAnalysis from "@/pages/technical-analysis";
+import CinematicTradingExperience from "@/components/cinematic-trading-experience";
 
 function Router() {
   return (
     <Switch>
       <Route path="/" component={Home} />
+      <Route path="/test" component={CinematicTradingExperience} />
       <Route path="/analytics-dashboard" component={AnalyticsDashboard} />
       <Route path="/trading-interface" component={TradingInterface} />
       <Route path="/technical-analysis" component={TechnicalAnalysis} />
