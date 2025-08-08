@@ -35,7 +35,7 @@ const generateCandles = (count: number, startX: number = 0, seed: number = 12345
       high,
       low,
       close,
-      x: startX + i * 15, // Spacing between candles
+      x: startX + i * 0.8, // Tighter spacing between candles
       isGreen: close > open
     });
 
@@ -50,7 +50,7 @@ export default function CandlestickChart3D({ scrollProgress }: { scrollProgress:
   const chartRef = useRef<THREE.Group>(null);
   const candlesRef = useRef<THREE.Mesh[]>([]);
   const dustParticlesRef = useRef<THREE.Points>(null);
-  const [candleData, setCandleData] = useState(() => generateCandles(25, -200, 12345));
+  const [candleData, setCandleData] = useState(() => generateCandles(25, -10, 12345));
 
 
 
@@ -193,7 +193,7 @@ export default function CandlestickChart3D({ scrollProgress }: { scrollProgress:
   }
 
   return (
-    <group ref={chartRef} position={[0, 0, -2]} scale={[1.5, 2.0, 1.0]}>
+    <group ref={chartRef} position={[0, 0, 0]} scale={[1.0, 2.0, 1.0]}>
 
 
       {/* Main candlestick chart */}

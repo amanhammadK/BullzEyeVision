@@ -271,14 +271,10 @@ export default function ZAxisTradingExperience() {
           {/* Subtle 3D Background Elements */}
           <BackgroundElements progress={progress} isScrolling={isScrolling} />
 
-          {/* TEST: Simple visible cube to verify Canvas is working */}
-          <mesh position={[0, 0, 0]}>
-            <boxGeometry args={[2, 2, 2]} />
-            <meshStandardMaterial color="#ff0000" emissive="#ff0000" emissiveIntensity={0.5} />
-          </mesh>
-
-          {/* Hero Candlestick Chart - Integrated into main Canvas */}
-          <CandlestickChart3D scrollProgress={progress} />
+          {/* Hero Candlestick Chart - Positioned for visibility */}
+          <group position={[0, 0, -3]}>
+            <CandlestickChart3D scrollProgress={progress} />
+          </group>
 
           {/* Fog for depth */}
           <fog attach="fog" args={['#000000', 5, 50]} />
