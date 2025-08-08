@@ -383,7 +383,7 @@ export default function ScrollExperience() {
       </div>
 
       {/* SHARP ANIMATIONS - NO FLUFF */}
-      <style jsx>{`
+      <style>{`
         @keyframes sharpFadeIn {
           0% { opacity: 0; }
           100% { opacity: 1; }

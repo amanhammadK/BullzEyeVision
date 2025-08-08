@@ -102,8 +102,8 @@ function ScrollScene({ scrollProgress }: { scrollProgress: number }) {
   );
 }
 
-// MAIN SCROLL-BASED WEBSITE COMPONENT
-export default function CinematicHero() {
+// SCROLL-BASED WEBSITE COMPONENT (DUPLICATE - REMOVE EXPORT)
+function CinematicHeroOld() {
   const [scrollProgress, setScrollProgress] = useState(0);
 
   useEffect(() => {
@@ -391,8 +391,8 @@ function BrutalistTradingScene({
       <DroneCamera scrollProgress={scrollProgress} mousePosition={mousePosition} />
 
       {/* 3D Elements */}
-      <BrutalistTypography scrollProgress={scrollProgress} />
-      <TradingFragments scrollProgress={scrollProgress} />
+      {/* <BrutalistTypography scrollProgress={scrollProgress} /> */}
+      {/* <TradingFragments scrollProgress={scrollProgress} /> */}
       <GridPlanes scrollProgress={scrollProgress} />
       <ParticleField scrollProgress={scrollProgress} />
     </>

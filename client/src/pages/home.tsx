@@ -87,6 +87,19 @@ export default function Home() {
         )}
       </nav>
 
+      {/* Test Content */}
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <h1 className="text-6xl font-bold text-white mb-4">BULLZEYE</h1>
+          <p className="text-xl text-gray-300">Trading Intelligence Platform</p>
+          <div className="mt-8">
+            <Button className="bg-emerald-500 hover:bg-emerald-400 text-black px-8 py-4 text-lg font-semibold">
+              Get Started
+            </Button>
+          </div>
+        </div>
+      </div>
+
       {/* Z-Axis Trading Experience */}
       <ZAxisTradingExperience />
 

@@ -142,14 +142,15 @@ const CandlestickChart: React.FC<{ scrollProgress: number }> = ({ scrollProgress
 
   // Animation loop with comprehensive error handling
   useFrame((state) => {
-    try {
-      if (!state?.clock) {
-        console.warn('CandlestickBackground: Clock not available');
-        return;
-      }
+    if (!state?.clock) {
+      console.warn('CandlestickBackground: Clock not available');
+      return;
+    }
 
-      const time = state.clock.getElapsedTime();
-      setAnimationTime(time);
+    const time = state.clock.getElapsedTime();
+    setAnimationTime(time);
+
+    try {
 
       if (!candlestickRef.current || !wickRef.current) {
         console.warn('CandlestickBackground: Refs not ready');
@@ -206,13 +207,13 @@ const CandlestickChart: React.FC<{ scrollProgress: number }> = ({ scrollProgress
               ));
             }
 
-            // Safe rotation with method existence check
-            if (typeof matrix.rotateZ === 'function') {
-              matrix.rotateZ(fragmentRotation * (i % 2 === 0 ? 1 : -1) * easeProgress);
-            }
-            if (typeof matrix.rotateX === 'function') {
-              matrix.rotateX(fragmentRotation * 0.3 * easeProgress);
-            }
+            // Correct Three.js Matrix4 rotation methods
+            const rotationMatrix = new THREE.Matrix4().makeRotationFromEuler(new THREE.Euler(
+              fragmentRotation * 0.3 * easeProgress,
+              0,
+              fragmentRotation * (i % 2 === 0 ? 1 : -1) * easeProgress
+            ));
+            matrix.multiplyMatrices(rotationMatrix, matrix);
 
             if (candlestickRef.current && typeof candlestickRef.current.setMatrixAt === 'function') {
               candlestickRef.current.setMatrixAt(i, matrix);
@@ -255,9 +256,10 @@ const CandlestickChart: React.FC<{ scrollProgress: number }> = ({ scrollProgress
               ));
             }
 
-            if (typeof matrix.rotateZ === 'function') {
-              matrix.rotateZ(fragmentRotation * (i % 2 === 0 ? -1 : 1) * easeProgress * 0.5);
-            }
+            // Correct Three.js Matrix4 rotation for wick fragments
+            const wickRotation = new THREE.Euler(0, 0, fragmentRotation * (i % 2 === 0 ? -1 : 1) * easeProgress * 0.5);
+            const rotationMatrix = new THREE.Matrix4().makeRotationFromEuler(wickRotation);
+            matrix.multiplyMatrices(rotationMatrix, matrix);
 
             if (wickRef.current && typeof wickRef.current.setMatrixAt === 'function') {
               wickRef.current.setMatrixAt(i, matrix);

@@ -532,9 +532,7 @@ function AnimatedCandlestickChart({ scrollProgress }: { scrollProgress: number }
       }
     });
 
-    // TEMPORARILY DISABLE fragment groups to isolate rotateZ errors
-    console.log('Fragment animation disabled to isolate errors');
-    // TODO: Re-enable after confirming main candlestick animation works
+    // Fragment animation system (temporarily disabled for stability)
 
     // Enhanced dust particles with cinematic swirling motion
     if (dustParticlesRef.current && isDusting) {
@@ -948,9 +946,7 @@ export default function CinematicTradingExperience() {
         className="fixed inset-0 z-0"
         style={{
           width: '100vw',
-          height: '100vh',
-          border: '5px solid red',
-          background: 'rgba(255, 0, 0, 0.1)'
+          height: '100vh'
         }}
       >
         <Canvas
@@ -958,8 +954,7 @@ export default function CinematicTradingExperience() {
           style={{
             width: '100%',
             height: '100%',
-            background: '#000000',
-            border: '3px solid yellow'
+            background: '#000000'
           }}
           onCreated={({ gl, scene, camera }) => {
             console.log('🎯 MINIMAL CANVAS CREATED!', {

@@ -7,6 +7,7 @@ import * as THREE from 'three';
 import ProblemSolutionInteractive from './problem-solution-interactive';
 import TraderJourney from './trader-journey';
 import CandlestickBackground from './candlestick-background';
+import HeroCandlestickChart from './hero-candlestick-chart';
 // GSAP removed - not used in this component
 // All animations are handled by Three.js useFrame hooks
 
@@ -286,17 +287,23 @@ export default function ZAxisTradingExperience() {
             pointerEvents: section === 0 ? 'auto' : 'none'
           }}
         >
-          {/* Animated Candlestick Background - DISABLED to fix rotateZ errors */}
-          {/* <CandlestickBackground /> */}
-          <div className="text-center max-w-6xl mx-auto px-8">
+          {/* Hero Candlestick Chart Animation */}
+          <HeroCandlestickChart />
+
+          <div className="text-center max-w-6xl mx-auto px-8 relative z-10">
             <h1
               className="blur-text-effect text-8xl md:text-9xl lg:text-[12rem] font-black tracking-tight leading-none mb-8"
               data-text="BULLZEYE"
+              style={{
+                textShadow: '0 0 20px rgba(0, 0, 0, 0.8), 0 0 40px rgba(0, 0, 0, 0.6)',
+                position: 'relative',
+                zIndex: 10
+              }}
             >
               BULLZEYE
             </h1>
 
-            <p className="text-xl md:text-2xl text-gray-300 font-mono uppercase tracking-[0.3em] font-light">
+            <p className="text-xl md:text-2xl text-gray-300 font-mono uppercase tracking-[0.3em] font-light relative z-10">
               PRECISION TRADING INTELLIGENCE
             </p>
           </div>
@@ -560,7 +567,7 @@ export default function ZAxisTradingExperience() {
         </div>
       </footer>
 
-      <style jsx>{`
+      <style>{`
         /* Simplified Spray Paint Typography Effect */
         .spray-paint-text {
           position: relative;
