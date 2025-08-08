@@ -95,7 +95,7 @@ export default function CandlestickChart3D({ scrollProgress }: { scrollProgress:
         const material = candle.material as THREE.MeshStandardMaterial;
         if (material) {
           material.emissiveIntensity = 0.2 + Math.sin(time * 1.2 + index * 0.8) * 0.15;
-          material.opacity = 0.08; // Low opacity for background effect
+          material.opacity = 0.6; // Visible opacity for background effect
         }
       } else if (isFragmenting) {
         // Fragmentation animation
@@ -113,7 +113,7 @@ export default function CandlestickChart3D({ scrollProgress }: { scrollProgress:
 
         const material = candle.material as THREE.MeshStandardMaterial;
         if (material) {
-          material.opacity = THREE.MathUtils.lerp(0.08, 0.01, staggeredProgress);
+          material.opacity = THREE.MathUtils.lerp(0.6, 0.1, staggeredProgress);
         }
       } else if (isDusting) {
         // Fade out completely

@@ -255,7 +255,7 @@ export default function ZAxisTradingExperience() {
           style={{
             width: '100%',
             height: '100%',
-            opacity: 0.3,
+            opacity: 0.8,
             pointerEvents: 'none'
           }}
         >
