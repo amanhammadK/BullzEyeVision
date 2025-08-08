@@ -241,10 +241,10 @@ export default function ZAxisTradingExperience() {
         />
       </div>
 
-      {/* 3D Canvas with Z-axis camera movement */}
-      <div className="fixed inset-0 z-10" style={{ width: '100vw', height: '100vh' }}>
+      {/* 3D Canvas with Z-axis camera movement - BACKGROUND LAYER */}
+      <div className="fixed inset-0 z-0 pointer-events-none" style={{ width: '100vw', height: '100vh' }}>
         <Canvas
-          style={{ width: '100%', height: '100%' }}
+          style={{ width: '100%', height: '100%', pointerEvents: 'none' }}
           camera={{
             position: [0, 0, 10],
             fov: 75,
@@ -280,15 +280,15 @@ export default function ZAxisTradingExperience() {
           {/* Hero Candlestick Chart - Integrated into main Canvas */}
           <CandlestickChart3D scrollProgress={progress} />
 
-          {/* INLINE TEST COMPONENT */}
-          <mesh position={[0, 0, 0]}>
-            <boxGeometry args={[10, 10, 10]} />
+          {/* INLINE TEST COMPONENT - CLOSE TO CAMERA */}
+          <mesh position={[0, 0, 5]}>
+            <boxGeometry args={[15, 15, 15]} />
             <meshBasicMaterial color="#ffff00" />
           </mesh>
 
-          {/* ANOTHER TEST COMPONENT */}
-          <mesh position={[-8, 0, 0]}>
-            <sphereGeometry args={[3, 16, 16]} />
+          {/* ANOTHER TEST COMPONENT - VERY CLOSE */}
+          <mesh position={[0, 0, 8]}>
+            <sphereGeometry args={[5, 16, 16]} />
             <meshBasicMaterial color="#ff00ff" />
           </mesh>
 
