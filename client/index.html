@@ -26,6 +26,8 @@
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎯</text></svg>" />
 
+    <!-- CACHE BUST: 2025-01-08-EMERGENCY -->
+
     <!-- Preconnect for performance -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -56,6 +58,30 @@
   </head>
   <body>
     <div id="root"></div>
+
+    <!-- EMERGENCY HTML TEST - BYPASS REACT -->
+    <div id="emergency-test" style="
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: lime;
+      color: black;
+      font-size: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 999999;
+    ">
+      🚨 HTML EMERGENCY TEST - LIME GREEN
+    </div>
+
+    <script>
+      console.log('🚨 INLINE HTML SCRIPT EXECUTING!');
+      console.log('🚨 EMERGENCY DIV EXISTS:', document.getElementById('emergency-test'));
+    </script>
+
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
