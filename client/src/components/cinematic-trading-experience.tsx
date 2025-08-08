@@ -209,7 +209,7 @@ function CandlestickCanvasBackground() {
       className="fixed inset-0 w-full h-full pointer-events-none"
       style={{
         zIndex: 1,
-        opacity: 0.25,
+        opacity: 0.15,
         mixBlendMode: 'normal'
       }}
     />
@@ -485,21 +485,11 @@ function AnimatedCandlestickChart({ scrollProgress }: { scrollProgress: number }
       try {
         if (candle && state.clock) {
           if (!isFragmenting && !isDusting) {
-            // Enhanced live animation with subtle pulsing and shadow movement
-            const time = state.clock.elapsedTime;
-            const scaleVariation = 1 + Math.sin(time * 0.8 + index * 0.3) * 0.02;
-            candle.scale.y = scaleVariation;
-
-            // Add subtle position wiggle
-            if (candleData[index]) {
-              candle.position.x = candleData[index].x + Math.sin(time * 0.6 + index) * 0.01;
-            }
-
+            // Simplified stable animation
             const material = candle.material as THREE.MeshStandardMaterial;
             if (material) {
-              // More subtle emissive intensity variation
-              material.emissiveIntensity = 0.2 + Math.sin(time * 1.2 + index * 0.8) * 0.15;
-              material.opacity = 0.08; // Lower opacity for better background effect
+              material.emissiveIntensity = 0.6; // Fixed intensity for stability
+              material.opacity = 0.9; // High opacity for visibility
             }
           } else if (isFragmenting) {
             // Simplified fragmentation animation
@@ -517,7 +507,7 @@ function AnimatedCandlestickChart({ scrollProgress }: { scrollProgress: number }
 
             const material = candle.material as THREE.MeshStandardMaterial;
             if (material) {
-              material.opacity = THREE.MathUtils.lerp(0.08, 0.01, staggeredProgress);
+              material.opacity = THREE.MathUtils.lerp(0.8, 0.2, staggeredProgress);
             }
           } else if (isDusting) {
             // Fade out completely
@@ -608,7 +598,7 @@ function AnimatedCandlestickChart({ scrollProgress }: { scrollProgress: number }
   }
 
   return (
-    <group ref={chartRef} position={[0, 0, -2]} scale={[1.5, 2.0, 1.0]}>
+    <group ref={chartRef} position={[0, 0, -2]} scale={[4.0, 6.0, 2.0]}>
       {/* Main candlestick chart with enhanced coverage */}
       {candleData.map((candle, index) => {
         const bodyHeight = Math.abs(candle.close - candle.open) / 1000; // Increased scale
@@ -1055,13 +1045,61 @@ export default function CinematicTradingExperience() {
         </div>
       </div>
 
-      {/* Scroll Content for Z-axis movement */}
-      <div className="relative z-30 pointer-events-none">
-        {/* Section markers for scroll progress */}
-        <div className="h-screen"></div> {/* Hero section scroll area */}
-        <div className="h-screen"></div> {/* Features section scroll area */}
-        <div className="h-screen"></div> {/* Testimonials section scroll area */}
-        <div className="h-screen"></div> {/* CTA section scroll area */}
+      {/* HTML Section Cards Overlay */}
+      <div className="relative z-30">
+        {/* Hero Section */}
+        <div
+          className="h-screen flex items-center justify-center relative"
+          style={{
+            opacity: section === 0 ? 1 : 0,
+            transform: `translateY(${section === 0 ? 0 : 30}px) scale(${section === 0 ? 1 : 0.97})`,
+            transition: 'all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+            pointerEvents: section === 0 ? 'auto' : 'none'
+          }}
+        >
+          <div className="text-center max-w-6xl mx-auto px-8 relative z-10">
+            <h1
+              className="text-8xl md:text-9xl lg:text-[12rem] font-black tracking-tight leading-none mb-8 text-white"
+              style={{
+                textShadow: '0 0 20px rgba(0, 0, 0, 0.8), 0 0 40px rgba(0, 0, 0, 0.6)',
+                position: 'relative',
+                zIndex: 10
+              }}
+            >
+              BULLZEYE
+            </h1>
+
+            <p className="text-xl md:text-2xl text-gray-300 font-mono uppercase tracking-[0.3em] font-light relative z-10">
+              PRECISION TRADING INTELLIGENCE
+            </p>
+          </div>
+        </div>
+
+        {/* Features Section */}
+        <div
+          className="h-screen flex items-center justify-center"
+          style={{
+            opacity: section === 1 ? 1 : 0,
+            transform: `translateY(${section === 1 ? 0 : 30}px) scale(${section === 1 ? 1 : 0.97})`,
+            transition: 'all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+            pointerEvents: section === 1 ? 'auto' : 'none'
+          }}
+        >
+          <div className="max-w-7xl mx-auto px-8">
+            <div className="text-center mb-16">
+              <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-white font-mono tracking-tight mb-6">
+                THE EDGE YOU NEED
+              </h2>
+              <p className="text-gray-400 font-mono text-base md:text-lg uppercase tracking-[0.2em] font-light max-w-4xl mx-auto">
+                ADVANCED AI TECHNOLOGY THAT GIVES YOU THE ADVANTAGE
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* More sections */}
+        <div className="h-screen"></div>
+        <div className="h-screen"></div>
       </div>
 
       {/* HUD Overlay */}
