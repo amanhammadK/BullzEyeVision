@@ -244,56 +244,27 @@ export default function ZAxisTradingExperience() {
       {/* 3D Canvas with Z-axis camera movement - BACKGROUND LAYER */}
       <div className="fixed inset-0 z-0 pointer-events-none" style={{ width: '100vw', height: '100vh' }}>
         <Canvas
-          style={{ width: '100%', height: '100%', pointerEvents: 'none' }}
-          camera={{
-            position: [0, 0, 10],
-            fov: 75,
-            near: 0.1,
-            far: 100
+          style={{
+            width: '100%',
+            height: '100%',
+            background: 'red',
+            border: '10px solid yellow'
           }}
+          camera={{ position: [0, 0, 5], fov: 75 }}
           onCreated={({ gl, scene, camera }) => {
-            console.log('🎯 Z-AXIS CANVAS CREATED!', {
-              renderer: gl.domElement.tagName,
-              sceneChildren: scene.children.length,
-              cameraPosition: camera.position,
-              canvasSize: { width: gl.domElement.width, height: gl.domElement.height }
+            console.log('🚨 MINIMAL CANVAS CREATED!', {
+              canvasElement: gl.domElement,
+              width: gl.domElement.width,
+              height: gl.domElement.height,
+              style: gl.domElement.style.cssText
             });
-
-            // Log every second to prove Canvas is alive
-            setInterval(() => {
-              console.log('🔥 CANVAS HEARTBEAT - Scene children:', scene.children.length);
-            }, 3000);
           }}
         >
-          {/* Camera Controller for Z-axis movement */}
-          <CameraController cameraZ={cameraZ} velocity={velocity} isScrolling={isScrolling} />
-
-          {/* Lighting Setup */}
-          <ambientLight intensity={0.3} />
-          <pointLight position={[10, 10, 5]} intensity={0.8} color="#00ff66" />
-          <pointLight position={[-10, -10, 5]} intensity={0.5} color="#ffffff" />
-          <directionalLight position={[0, 0, 10]} intensity={0.3} color="#ffffff" />
-
-          {/* Subtle 3D Background Elements */}
-          <BackgroundElements progress={progress} isScrolling={isScrolling} />
-
-          {/* Hero Candlestick Chart - Integrated into main Canvas */}
-          <CandlestickChart3D scrollProgress={progress} />
-
-          {/* INLINE TEST COMPONENT - CLOSE TO CAMERA */}
-          <mesh position={[0, 0, 5]}>
-            <boxGeometry args={[15, 15, 15]} />
-            <meshBasicMaterial color="#ffff00" />
+          {/* ABSOLUTE MINIMAL TEST - JUST ONE CUBE */}
+          <mesh>
+            <boxGeometry args={[2, 2, 2]} />
+            <meshBasicMaterial color="white" />
           </mesh>
-
-          {/* ANOTHER TEST COMPONENT - VERY CLOSE */}
-          <mesh position={[0, 0, 8]}>
-            <sphereGeometry args={[5, 16, 16]} />
-            <meshBasicMaterial color="#ff00ff" />
-          </mesh>
-
-          {/* Fog for depth */}
-          <fog attach="fog" args={['#000000', 5, 50]} />
         </Canvas>
       </div>
 
