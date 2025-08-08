@@ -258,6 +258,11 @@ export default function ZAxisTradingExperience() {
               cameraPosition: camera.position,
               canvasSize: { width: gl.domElement.width, height: gl.domElement.height }
             });
+
+            // Log every second to prove Canvas is alive
+            setInterval(() => {
+              console.log('🔥 CANVAS HEARTBEAT - Scene children:', scene.children.length);
+            }, 3000);
           }}
         >
           {/* Camera Controller for Z-axis movement */}
@@ -274,6 +279,18 @@ export default function ZAxisTradingExperience() {
 
           {/* Hero Candlestick Chart - Integrated into main Canvas */}
           <CandlestickChart3D scrollProgress={progress} />
+
+          {/* INLINE TEST COMPONENT */}
+          <mesh position={[0, 0, 0]}>
+            <boxGeometry args={[10, 10, 10]} />
+            <meshBasicMaterial color="#ffff00" />
+          </mesh>
+
+          {/* ANOTHER TEST COMPONENT */}
+          <mesh position={[-8, 0, 0]}>
+            <sphereGeometry args={[3, 16, 16]} />
+            <meshBasicMaterial color="#ff00ff" />
+          </mesh>
 
           {/* Fog for depth */}
           <fog attach="fog" args={['#000000', 5, 50]} />
