@@ -242,7 +242,26 @@ export default function ZAxisTradingExperience() {
       </div>
 
       {/* 3D Canvas with Z-axis camera movement - BACKGROUND LAYER */}
-      <div className="fixed inset-0 z-0 pointer-events-none" style={{ width: '100vw', height: '100vh' }}>
+      <div
+        className="fixed inset-0 z-0"
+        style={{
+          width: '100vw',
+          height: '100vh',
+          backgroundColor: 'blue',
+          border: '20px solid green'
+        }}
+        ref={(el) => {
+          if (el) {
+            console.log('📦 CANVAS CONTAINER:', {
+              width: el.offsetWidth,
+              height: el.offsetHeight,
+              position: window.getComputedStyle(el).position,
+              zIndex: window.getComputedStyle(el).zIndex,
+              display: window.getComputedStyle(el).display
+            });
+          }
+        }}
+      >
         <Canvas
           style={{
             width: '100%',
