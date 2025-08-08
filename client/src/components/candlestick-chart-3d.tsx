@@ -52,25 +52,7 @@ export default function CandlestickChart3D({ scrollProgress }: { scrollProgress:
   const dustParticlesRef = useRef<THREE.Points>(null);
   const [candleData, setCandleData] = useState(() => generateCandles(25, -200, 12345));
 
-  // Debug logging
-  useEffect(() => {
-    console.log('🕯️ CandlestickChart3D mounted!', {
-      scrollProgress,
-      candleCount: candleData.length,
-      chartRef: chartRef.current
-    });
 
-    // Log every second to prove component is alive
-    const interval = setInterval(() => {
-      console.log('💓 CandlestickChart3D heartbeat - component is alive!');
-    }, 2000);
-
-    return () => clearInterval(interval);
-  }, []);
-
-  useEffect(() => {
-    console.log('📊 Scroll progress updated:', scrollProgress);
-  }, [scrollProgress]);
 
   // Handle scroll-based fragmentation states
   const isFragmenting = scrollProgress > 0.1 && scrollProgress < 0.6;
@@ -212,17 +194,7 @@ export default function CandlestickChart3D({ scrollProgress }: { scrollProgress:
 
   return (
     <group ref={chartRef} position={[0, 0, -2]} scale={[1.5, 2.0, 1.0]}>
-      {/* DEBUG: MASSIVE BRIGHT TEST CUBE - IMPOSSIBLE TO MISS */}
-      <mesh position={[0, 0, 2]}>
-        <boxGeometry args={[8, 8, 8]} />
-        <meshBasicMaterial color="#ff0000" />
-      </mesh>
 
-      {/* SECOND TEST CUBE - DIFFERENT POSITION */}
-      <mesh position={[5, 5, 0]}>
-        <boxGeometry args={[4, 4, 4]} />
-        <meshBasicMaterial color="#00ff00" />
-      </mesh>
 
       {/* Main candlestick chart */}
       {candleData.map((candle, index) => {

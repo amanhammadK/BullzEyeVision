@@ -184,12 +184,7 @@ export default function ZAxisTradingExperience() {
   const { progress, cameraZ, velocity, isScrolling, section } = useZAxisScroll();
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // EMERGENCY DEBUG - LOG COMPONENT MOUNT
-  useEffect(() => {
-    console.log('🚨 ZAxisTradingExperience MOUNTED!', {
-      progress, cameraZ, velocity, isScrolling, section
-    });
-  }, []);
+
 
   return (
     <div
@@ -249,48 +244,38 @@ export default function ZAxisTradingExperience() {
       </div>
 
       {/* 3D Canvas with Z-axis camera movement - BACKGROUND LAYER */}
-      <div
-        className="fixed inset-0 z-0"
-        style={{
-          width: '100vw',
-          height: '100vh',
-          backgroundColor: 'blue',
-          border: '20px solid green'
-        }}
-        ref={(el) => {
-          if (el) {
-            console.log('📦 CANVAS CONTAINER:', {
-              width: el.offsetWidth,
-              height: el.offsetHeight,
-              position: window.getComputedStyle(el).position,
-              zIndex: window.getComputedStyle(el).zIndex,
-              display: window.getComputedStyle(el).display
-            });
-          }
-        }}
-      >
+      <div className="fixed inset-0 z-0 pointer-events-none">
         <Canvas
+          camera={{
+            position: [0, 0, 10],
+            fov: 75,
+            near: 0.1,
+            far: 100
+          }}
           style={{
             width: '100%',
             height: '100%',
-            background: 'red',
-            border: '10px solid yellow'
-          }}
-          camera={{ position: [0, 0, 5], fov: 75 }}
-          onCreated={({ gl, scene, camera }) => {
-            console.log('🚨 MINIMAL CANVAS CREATED!', {
-              canvasElement: gl.domElement,
-              width: gl.domElement.width,
-              height: gl.domElement.height,
-              style: gl.domElement.style.cssText
-            });
+            opacity: 0.3,
+            pointerEvents: 'none'
           }}
         >
-          {/* ABSOLUTE MINIMAL TEST - JUST ONE CUBE */}
-          <mesh>
-            <boxGeometry args={[2, 2, 2]} />
-            <meshBasicMaterial color="white" />
-          </mesh>
+          {/* Camera Controller for Z-axis movement */}
+          <CameraController cameraZ={cameraZ} velocity={velocity} isScrolling={isScrolling} />
+
+          {/* Lighting Setup */}
+          <ambientLight intensity={0.3} />
+          <pointLight position={[10, 10, 5]} intensity={0.8} color="#00ff66" />
+          <pointLight position={[-10, -10, 5]} intensity={0.5} color="#ffffff" />
+          <directionalLight position={[0, 0, 10]} intensity={0.3} color="#ffffff" />
+
+          {/* Subtle 3D Background Elements */}
+          <BackgroundElements progress={progress} isScrolling={isScrolling} />
+
+          {/* Hero Candlestick Chart - Integrated into main Canvas */}
+          <CandlestickChart3D scrollProgress={progress} />
+
+          {/* Fog for depth */}
+          <fog attach="fog" args={['#000000', 5, 50]} />
         </Canvas>
       </div>
 

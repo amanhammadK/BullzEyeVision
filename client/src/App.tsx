@@ -27,31 +27,10 @@ function Router() {
 }
 
 function App() {
-  console.log('🚨 APP COMPONENT RENDERING!');
-
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <Toaster />
-
-        {/* EMERGENCY APP TEST - SHOULD BE VISIBLE */}
-        <div style={{
-          position: 'fixed',
-          top: '0',
-          left: '0',
-          width: '100vw',
-          height: '100vh',
-          backgroundColor: 'purple',
-          color: 'white',
-          fontSize: '30px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          zIndex: 99999
-        }}>
-          🚨 APP COMPONENT EMERGENCY TEST - PURPLE SCREEN
-        </div>
-
         <Router />
       </TooltipProvider>
     </QueryClientProvider>
