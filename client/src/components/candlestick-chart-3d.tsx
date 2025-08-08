@@ -214,9 +214,9 @@ export default function CandlestickChart3D({ scrollProgress }: { scrollProgress:
               <meshStandardMaterial
                 color={candle.isGreen ? '#00ff88' : '#ff4477'}
                 transparent
-                opacity={0.8}
-                emissive={candle.isGreen ? '#004433' : '#440022'}
-                emissiveIntensity={0.5}
+                opacity={1.0}
+                emissive={candle.isGreen ? '#00ff88' : '#ff4477'}
+                emissiveIntensity={0.8}
                 metalness={0.2}
                 roughness={0.6}
               />
@@ -228,9 +228,9 @@ export default function CandlestickChart3D({ scrollProgress }: { scrollProgress:
               <meshStandardMaterial
                 color={candle.isGreen ? '#00ff88' : '#ff4477'}
                 transparent
-                opacity={0.6}
-                emissive={candle.isGreen ? '#003322' : '#330022'}
-                emissiveIntensity={0.4}
+                opacity={1.0}
+                emissive={candle.isGreen ? '#00ff88' : '#ff4477'}
+                emissiveIntensity={0.6}
                 metalness={0.1}
                 roughness={0.7}
               />

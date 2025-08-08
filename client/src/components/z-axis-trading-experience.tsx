@@ -262,14 +262,20 @@ export default function ZAxisTradingExperience() {
           {/* Camera Controller for Z-axis movement */}
           <CameraController cameraZ={cameraZ} velocity={velocity} isScrolling={isScrolling} />
 
-          {/* Lighting Setup */}
-          <ambientLight intensity={0.3} />
-          <pointLight position={[10, 10, 5]} intensity={0.8} color="#00ff66" />
-          <pointLight position={[-10, -10, 5]} intensity={0.5} color="#ffffff" />
-          <directionalLight position={[0, 0, 10]} intensity={0.3} color="#ffffff" />
+          {/* Enhanced Lighting Setup */}
+          <ambientLight intensity={0.8} />
+          <pointLight position={[10, 10, 5]} intensity={1.2} color="#00ff66" />
+          <pointLight position={[-10, -10, 5]} intensity={1.0} color="#ffffff" />
+          <directionalLight position={[0, 0, 10]} intensity={0.8} color="#ffffff" />
 
           {/* Subtle 3D Background Elements */}
           <BackgroundElements progress={progress} isScrolling={isScrolling} />
+
+          {/* TEST: Simple visible cube to verify Canvas is working */}
+          <mesh position={[0, 0, 0]}>
+            <boxGeometry args={[2, 2, 2]} />
+            <meshStandardMaterial color="#ff0000" emissive="#ff0000" emissiveIntensity={0.5} />
+          </mesh>
 
           {/* Hero Candlestick Chart - Integrated into main Canvas */}
           <CandlestickChart3D scrollProgress={progress} />
