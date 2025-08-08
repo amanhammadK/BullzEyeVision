@@ -8,6 +8,7 @@ import ProblemSolutionInteractive from './problem-solution-interactive';
 import TraderJourney from './trader-journey';
 import CandlestickBackground from './candlestick-background';
 import HeroCandlestickChart from './hero-candlestick-chart';
+import CandlestickChart3D from './candlestick-chart-3d';
 // GSAP removed - not used in this component
 // All animations are handled by Three.js useFrame hooks
 
@@ -270,6 +271,11 @@ export default function ZAxisTradingExperience() {
           {/* Subtle 3D Background Elements */}
           <BackgroundElements progress={progress} isScrolling={isScrolling} />
 
+          {/* Hero Candlestick Chart - Integrated into main Canvas */}
+          {section === 0 && (
+            <CandlestickChart3D scrollProgress={progress} />
+          )}
+
           {/* Fog for depth */}
           <fog attach="fog" args={['#000000', 5, 50]} />
         </Canvas>
@@ -287,8 +293,7 @@ export default function ZAxisTradingExperience() {
             pointerEvents: section === 0 ? 'auto' : 'none'
           }}
         >
-          {/* Hero Candlestick Chart Animation */}
-          <HeroCandlestickChart />
+          {/* Hero Candlestick Chart Animation - Now integrated into main Canvas above */}
 
           <div className="text-center max-w-6xl mx-auto px-8 relative z-10">
             <h1
