@@ -242,8 +242,9 @@ export default function ZAxisTradingExperience() {
       </div>
 
       {/* 3D Canvas with Z-axis camera movement */}
-      <div className="fixed inset-0 z-10">
+      <div className="fixed inset-0 z-10" style={{ width: '100vw', height: '100vh' }}>
         <Canvas
+          style={{ width: '100%', height: '100%' }}
           camera={{
             position: [0, 0, 10],
             fov: 75,
@@ -272,9 +273,7 @@ export default function ZAxisTradingExperience() {
           <BackgroundElements progress={progress} isScrolling={isScrolling} />
 
           {/* Hero Candlestick Chart - Integrated into main Canvas */}
-          {section === 0 && (
-            <CandlestickChart3D scrollProgress={progress} />
-          )}
+          <CandlestickChart3D scrollProgress={progress} />
 
           {/* Fog for depth */}
           <fog attach="fog" args={['#000000', 5, 50]} />

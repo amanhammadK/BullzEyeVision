@@ -59,6 +59,13 @@ export default function CandlestickChart3D({ scrollProgress }: { scrollProgress:
       candleCount: candleData.length,
       chartRef: chartRef.current
     });
+
+    // Log every second to prove component is alive
+    const interval = setInterval(() => {
+      console.log('💓 CandlestickChart3D heartbeat - component is alive!');
+    }, 2000);
+
+    return () => clearInterval(interval);
   }, []);
 
   useEffect(() => {
@@ -205,10 +212,16 @@ export default function CandlestickChart3D({ scrollProgress }: { scrollProgress:
 
   return (
     <group ref={chartRef} position={[0, 0, -2]} scale={[1.5, 2.0, 1.0]}>
-      {/* DEBUG: Bright test cube to verify rendering */}
-      <mesh position={[0, 0, 0]}>
-        <boxGeometry args={[2, 2, 2]} />
-        <meshStandardMaterial color="#ff0000" emissive="#ff0000" emissiveIntensity={0.5} />
+      {/* DEBUG: MASSIVE BRIGHT TEST CUBE - IMPOSSIBLE TO MISS */}
+      <mesh position={[0, 0, 2]}>
+        <boxGeometry args={[8, 8, 8]} />
+        <meshBasicMaterial color="#ff0000" />
+      </mesh>
+
+      {/* SECOND TEST CUBE - DIFFERENT POSITION */}
+      <mesh position={[5, 5, 0]}>
+        <boxGeometry args={[4, 4, 4]} />
+        <meshBasicMaterial color="#00ff00" />
       </mesh>
 
       {/* Main candlestick chart */}
