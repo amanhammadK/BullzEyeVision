@@ -968,8 +968,8 @@ export default function CinematicTradingExperience() {
           {/* SUPER BRIGHT LIGHTING */}
           <ambientLight intensity={2.0} />
 
-          {/* ANIMATED TEST OBJECTS */}
-          <AnimatedTestObjects />
+          {/* ANIMATED CANDLESTICK CHART */}
+          <AnimatedCandlestickChart scrollProgress={progress} />
         </Canvas>
 
         {/* Enhanced Atmospheric Overlays */}

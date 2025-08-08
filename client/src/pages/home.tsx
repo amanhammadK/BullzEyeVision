@@ -6,7 +6,7 @@ import {
   ChevronUp
 } from "lucide-react";
 import { ModeToggle } from "@/components/mode-toggle";
-import ZAxisTradingExperience from "@/components/z-axis-trading-experience";
+import CinematicTradingExperience from "@/components/cinematic-trading-experience";
 
 export default function Home() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -84,8 +84,8 @@ export default function Home() {
         )}
       </nav>
 
-      {/* Z-Axis Trading Experience - Main Hero */}
-      <ZAxisTradingExperience />
+      {/* Cinematic Trading Experience - Main Hero */}
+      <CinematicTradingExperience />
 
       {/* Soft Scroll to top button */}
       {showScrollTop && (
