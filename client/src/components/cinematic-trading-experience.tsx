@@ -29,24 +29,31 @@ function CandlestickCanvasBackground() {
   const offsetRef = useRef(0);
   const lastTimeRef = useRef(0);
 
-  // Generate synthetic candlestick data
-  const generateCandles = (count: number, startX: number = 0): CandlestickData[] => {
+  // Generate synthetic candlestick data with consistent seed
+  const generateCandles = (count: number, startX: number = 0, seed: number = 12345): CandlestickData[] => {
     const candles: CandlestickData[] = [];
-    let price = 67000 + Math.random() * 3000; // Starting price around $67k-$70k
+    let price = 67500; // Fixed starting price
+
+    // Simple seeded random function for consistent results
+    let seedValue = seed;
+    const seededRandom = () => {
+      seedValue = (seedValue * 9301 + 49297) % 233280;
+      return seedValue / 233280;
+    };
 
     for (let i = 0; i < count; i++) {
-      const change = (Math.random() - 0.5) * 800; // Price change
+      const change = (seededRandom() - 0.5) * 600; // Smaller, more realistic changes
       const open = price;
       const close = price + change;
-      const high = Math.max(open, close) + Math.random() * 200;
-      const low = Math.min(open, close) - Math.random() * 200;
+      const high = Math.max(open, close) + seededRandom() * 150;
+      const low = Math.min(open, close) - seededRandom() * 150;
 
       candles.push({
         open,
         high,
         low,
         close,
-        x: startX + i * 12, // 12px spacing between candles
+        x: startX + i * 15, // Slightly wider spacing
         isGreen: close > open
       });
 
@@ -59,16 +66,16 @@ function CandlestickCanvasBackground() {
   // Initialize candles
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      const candleCount = Math.ceil(window.innerWidth / 12) + 20; // Extra candles for smooth scrolling
-      candlesRef.current = generateCandles(candleCount, -240); // Start off-screen
+      const candleCount = Math.ceil(window.innerWidth / 15) + 30; // Extra candles for smooth scrolling
+      candlesRef.current = generateCandles(candleCount, -450, 12345); // Start off-screen with consistent seed
     }
   }, []);
 
   // Canvas drawing function
   const drawCandles = (ctx: CanvasRenderingContext2D, candles: CandlestickData[], offset: number) => {
     const canvas = ctx.canvas;
-    const centerY = canvas.height * 0.6; // Position chart in lower portion
-    const priceScale = 0.008; // Scale factor for price to pixels
+    const centerY = canvas.height * 0.5; // Center the chart vertically
+    const priceScale = 0.015; // Larger scale for more visible movement
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -76,24 +83,24 @@ function CandlestickCanvasBackground() {
       const x = candle.x + offset;
 
       // Skip candles outside viewport (with buffer)
-      if (x < -20 || x > canvas.width + 20) return;
+      if (x < -30 || x > canvas.width + 30) return;
 
-      const openY = centerY - (candle.open - 67000) * priceScale;
-      const closeY = centerY - (candle.close - 67000) * priceScale;
-      const highY = centerY - (candle.high - 67000) * priceScale;
-      const lowY = centerY - (candle.low - 67000) * priceScale;
+      const openY = centerY - (candle.open - 67500) * priceScale;
+      const closeY = centerY - (candle.close - 67500) * priceScale;
+      const highY = centerY - (candle.high - 67500) * priceScale;
+      const lowY = centerY - (candle.low - 67500) * priceScale;
 
       const bodyTop = Math.min(openY, closeY);
       const bodyBottom = Math.max(openY, closeY);
-      const bodyHeight = Math.max(bodyBottom - bodyTop, 2); // Minimum 2px height
+      const bodyHeight = Math.max(bodyBottom - bodyTop, 3); // Minimum 3px height for visibility
 
-      // Set colors with low opacity
-      const color = candle.isGreen ? 'rgba(0, 255, 136, 0.25)' : 'rgba(255, 68, 119, 0.25)';
-      const wickColor = candle.isGreen ? 'rgba(0, 255, 136, 0.2)' : 'rgba(255, 68, 119, 0.2)';
+      // Set colors with appropriate opacity
+      const color = candle.isGreen ? 'rgba(0, 255, 136, 0.3)' : 'rgba(255, 68, 119, 0.3)';
+      const wickColor = candle.isGreen ? 'rgba(0, 255, 136, 0.25)' : 'rgba(255, 68, 119, 0.25)';
 
       // Draw wick
       ctx.strokeStyle = wickColor;
-      ctx.lineWidth = 1;
+      ctx.lineWidth = 1.5;
       ctx.beginPath();
       ctx.moveTo(x, highY);
       ctx.lineTo(x, lowY);
@@ -101,12 +108,12 @@ function CandlestickCanvasBackground() {
 
       // Draw body
       ctx.fillStyle = color;
-      ctx.fillRect(x - 4, bodyTop, 8, bodyHeight);
+      ctx.fillRect(x - 6, bodyTop, 12, bodyHeight);
 
       // Draw body outline for better definition
-      ctx.strokeStyle = color.replace('0.25', '0.4');
+      ctx.strokeStyle = color.replace('0.3', '0.5');
       ctx.lineWidth = 1;
-      ctx.strokeRect(x - 4, bodyTop, 8, bodyHeight);
+      ctx.strokeRect(x - 6, bodyTop, 12, bodyHeight);
     });
   };
 
@@ -120,13 +127,13 @@ function CandlestickCanvasBackground() {
     // Control animation speed (60fps target)
     if (currentTime - lastTimeRef.current >= 16.67) {
       // Move candles from right to left
-      offsetRef.current -= 0.5; // Adjust speed as needed
+      offsetRef.current -= 1.0; // Slightly faster movement
 
       // Reset and regenerate when candles move too far left
-      if (offsetRef.current <= -240) {
+      if (offsetRef.current <= -450) {
         offsetRef.current = 0;
-        const candleCount = Math.ceil(window.innerWidth / 12) + 20;
-        candlesRef.current = generateCandles(candleCount, -240);
+        const candleCount = Math.ceil(window.innerWidth / 15) + 30;
+        candlesRef.current = generateCandles(candleCount, -450, 12345); // Same seed for consistency
       }
 
       drawCandles(ctx, candlesRef.current, offsetRef.current);
