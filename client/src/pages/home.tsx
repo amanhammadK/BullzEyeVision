@@ -100,6 +100,23 @@ export default function Home() {
         </div>
       </div>
 
+      {/* EMERGENCY TEST - SHOULD BE VISIBLE */}
+      <div style={{
+        position: 'fixed',
+        top: '50px',
+        left: '50px',
+        width: '300px',
+        height: '200px',
+        backgroundColor: 'red',
+        border: '10px solid yellow',
+        zIndex: 9999,
+        color: 'white',
+        padding: '20px',
+        fontSize: '20px'
+      }}>
+        🚨 EMERGENCY TEST - IF YOU SEE THIS, HOME COMPONENT WORKS
+      </div>
+
       {/* Z-Axis Trading Experience */}
       <ZAxisTradingExperience />
 

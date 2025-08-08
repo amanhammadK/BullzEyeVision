@@ -184,6 +184,13 @@ export default function ZAxisTradingExperience() {
   const { progress, cameraZ, velocity, isScrolling, section } = useZAxisScroll();
   const containerRef = useRef<HTMLDivElement>(null);
 
+  // EMERGENCY DEBUG - LOG COMPONENT MOUNT
+  useEffect(() => {
+    console.log('🚨 ZAxisTradingExperience MOUNTED!', {
+      progress, cameraZ, velocity, isScrolling, section
+    });
+  }, []);
+
   return (
     <div
       ref={containerRef}
