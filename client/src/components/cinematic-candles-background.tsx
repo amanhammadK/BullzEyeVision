@@ -55,7 +55,8 @@ export default function CinematicCandlesBackground() {
   const drawFrame = (ctx: CanvasRenderingContext2D, candles: Candle[], offset: number, disintegrate: number) => {
     const { width, height } = ctx.canvas;
     const centerY = height * 0.5;
-    const priceScale = Math.max(0.05, Math.min(0.08, height / 12000)); // dynamic scale for screen-sized bodies
+    // Boost vertical scale for much taller, screen-filling candles
+    const priceScale = Math.max(0.12, Math.min(0.2, height / 5000));
 
     ctx.clearRect(0, 0, width, height);
 
