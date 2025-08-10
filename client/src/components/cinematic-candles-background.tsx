@@ -88,10 +88,11 @@ export default function CinematicCandlesBackground() {
       ctx.stroke();
 
       // Disintegration amount per candle (introduce slight stagger)
-      const localD = Math.min(1, Math.max(0, disintegrate - idx * 0.01));
+      // Stronger, earlier breakup across more columns
+      const localD = Math.min(1, Math.max(0, disintegrate - idx * 0.005));
 
       // Draw intact portion of body (shrinks as it disintegrates)
-      const intactRatio = 1 - localD * 0.95; // stronger breakup
+      const intactRatio = Math.max(0, 1 - localD * 1.0); // full breakup at the end
       const intactHeight = Math.max(2, bodyHeight * intactRatio);
       const intactTop = bodyTop + (bodyHeight - intactHeight) / 2;
 
@@ -105,16 +106,16 @@ export default function CinematicCandlesBackground() {
 
       // Fragments: small shards flying outward as disintegration grows
       if (localD > 0.05) {
-        const shardCount = 20; // more shards for bigger look
+        const shardCount = 60; // louder burst
         const rand = createSeededRandom(idx + 1000);
         for (let i = 0; i < shardCount; i++) {
           const angle = rand() * Math.PI * 2;
-          const radius = localD * (20 + rand() * 40); // expand with progress
+          const radius = localD * (60 + rand() * 80); // much larger spread
           const sx = x + Math.cos(angle) * radius;
           const sy = intactTop + (rand() - 0.5) * (intactHeight + 6) + Math.sin(angle) * (radius * 0.4);
-          const w = 2 + rand() * 3;
-          const h = 2 + rand() * 3;
-          const alpha = Math.max(0, 0.6 - localD * 0.6) * (0.6 + rand() * 0.4);
+          const w = 3 + rand() * 4;
+          const h = 3 + rand() * 4;
+          const alpha = Math.max(0, 0.8 - localD * 0.6) * (0.7 + rand() * 0.3);
           ctx.fillStyle = `rgba(${baseColor}, ${alpha})`;
           ctx.fillRect(sx, sy, w, h);
         }
@@ -184,7 +185,7 @@ export default function CinematicCandlesBackground() {
       const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
       const progress = maxScroll > 0 ? window.scrollY / maxScroll : 0;
       // Start disintegration after hero (10%) and finish by 60%
-      const t = Math.max(0, Math.min(1, (progress - 0.1) / 0.5));
+      const t = Math.max(0, Math.min(1, progress / 0.35));
       disintegrateRef.current = t;
       const blur = progress * 6;
       const opacity = Math.max(0.32 - progress * 0.2, 0.08);
