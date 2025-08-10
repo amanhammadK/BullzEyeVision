@@ -47,7 +47,7 @@ export default function Home() {
               <a href="#contact" className="text-white/80 hover:text-emerald-400 transition-colors font-medium text-sm">Contact</a>
               <ModeToggle />
               <Button className="bg-emerald-500 hover:bg-emerald-400 text-black px-6 py-2 text-sm font-medium rounded-lg transition-all duration-200">
-                Get Started
+                Launch App
               </Button>
             </div>
 
