@@ -35,18 +35,18 @@ export default function Home() {
             <div className="flex items-center">
               <div className="text-2xl font-semibold tracking-wide">
                 <span className="text-white">BULLZ</span>
-                <span className="text-emerald-400">EYE</span>
+                <span className="text-[#00FF66]">EYE</span>
               </div>
             </div>
 
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center space-x-6">
-              <a href="#features" className="text-white/80 hover:text-emerald-400 transition-colors font-medium text-sm">Features</a>
-              <a href="#how-it-works" className="text-white/80 hover:text-emerald-400 transition-colors font-medium text-sm">How It Works</a>
-              <a href="#pricing" className="text-white/80 hover:text-emerald-400 transition-colors font-medium text-sm">Pricing</a>
-              <a href="#contact" className="text-white/80 hover:text-emerald-400 transition-colors font-medium text-sm">Contact</a>
+              <a href="#features" className="text-white/80 hover:text-[#00FF66] transition-colors font-medium text-sm">Features</a>
+              <a href="#how-it-works" className="text-white/80 hover:text-[#00FF66] transition-colors font-medium text-sm">How It Works</a>
+              <a href="#pricing" className="text-white/80 hover:text-[#00FF66] transition-colors font-medium text-sm">Pricing</a>
+              <a href="#contact" className="text-white/80 hover:text-[#00FF66] transition-colors font-medium text-sm">Contact</a>
               <ModeToggle />
-              <Button className="bg-emerald-500 hover:bg-emerald-400 text-black px-6 py-2 text-sm font-medium rounded-lg transition-all duration-200">
+              <Button className="bg-[#00FF66] hover:bg-[#22FF80] text-black px-6 py-2 text-sm font-medium rounded-lg transition-all duration-200">
                 Launch App
               </Button>
             </div>
@@ -58,7 +58,7 @@ export default function Home() {
                 variant="ghost"
                 size="sm"
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className="text-white hover:text-emerald-400 p-2"
+                className="text-white hover:text-[#00FF66] p-2"
               >
                 {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
               </Button>
@@ -75,7 +75,7 @@ export default function Home() {
               <a href="#pricing" className="block px-4 py-2 text-white/80 hover:text-emerald-400 transition-colors font-medium">Pricing</a>
               <a href="#contact" className="block px-4 py-2 text-white/80 hover:text-emerald-400 transition-colors font-medium">Contact</a>
               <div className="px-4 py-4">
-                <Button className="w-full bg-emerald-500 hover:bg-emerald-400 text-black px-6 py-2 text-sm font-medium rounded-lg transition-all duration-200">
+                <Button className="w-full bg-[#00FF66] hover:bg-[#22FF80] text-black px-6 py-2 text-sm font-medium rounded-lg transition-all duration-200">
                   Get Started
                 </Button>
               </div>
