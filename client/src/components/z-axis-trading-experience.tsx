@@ -280,7 +280,7 @@ export default function ZAxisTradingExperience() {
               PRECISION TRADING INTELLIGENCE
             </p>
             <div className="flex items-center justify-center gap-6">
-              <Button className="bg-green-500 hover:bg-green-400 text-black px-10 py-4 text-lg font-mono font-black uppercase tracking-wider rounded-none">
+              <Button className="bg-emerald-500 hover:bg-emerald-400 text-black px-10 py-4 text-lg font-mono font-black uppercase tracking-wider rounded-none">
                 <Crosshair className="w-5 h-5 mr-3" />
                 Launch App
               </Button>
