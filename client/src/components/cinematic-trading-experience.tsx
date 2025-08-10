@@ -526,7 +526,7 @@ function AnimatedCandlestickChart({ scrollProgress }: { scrollProgress: number }
 
     // Enhanced dust particles with cinematic swirling motion
     if (dustParticlesRef.current && isDusting) {
-      const dustProgress = Math.min((scrollProgress - 0.5) / 0.5, 1);
+      const dustProgress = Math.max(0, Math.min(1, (scrollProgress - 0.45) / 0.55)); // start mid-scroll, finish at end
       const time = state.clock.elapsedTime;
 
       // More complex rotation for cinematic effect
@@ -537,8 +537,8 @@ function AnimatedCandlestickChart({ scrollProgress }: { scrollProgress: number }
       const material = dustParticlesRef.current.material as THREE.PointsMaterial;
       if (material) {
         // Enhanced opacity fade with bloom effect
-        material.opacity = THREE.MathUtils.lerp(0.6, 0, dustProgress);
-        material.size = THREE.MathUtils.lerp(0.03, 0.001, dustProgress);
+        material.opacity = THREE.MathUtils.lerp(0.22, 0.08, dustProgress); // lower opacity overall
+        material.size = THREE.MathUtils.lerp(0.08, 0.14, dustProgress); // bigger near end to feel closer
       }
 
       // Enhanced particle positions with more complex motion patterns
@@ -547,15 +547,17 @@ function AnimatedCandlestickChart({ scrollProgress }: { scrollProgress: number }
         const particleIndex = i / 3;
         const phase = particleIndex * 0.1;
 
-        // Create spiral upward motion with randomized direction bias
-        positions[i] += Math.sin(time * 0.5 + phase) * 0.002; // X - spiral motion
-        positions[i + 1] += 0.003 + Math.cos(time * 0.3 + phase) * 0.001; // Y - upward drift
-        positions[i + 2] += Math.sin(time * 0.4 + phase) * 0.0015; // Z - depth variation
+        // Scatter away from center and push toward camera as dustProgress increases
+        const spread = THREE.MathUtils.lerp(0.02, 0.18, dustProgress);
+        positions[i] += (positions[i]) * spread * 0.02; // away from center X
+        positions[i + 1] += (positions[i + 1]) * spread * 0.02; // away from center Y
+        positions[i + 2] = THREE.MathUtils.lerp(positions[i + 2], -0.6, 0.02 * dustProgress); // move toward camera
 
-        // Reset particles that drift too far
-        if (positions[i + 1] > 8) {
-          positions[i + 1] = -4;
-          positions[i] = (Math.random() - 0.5) * 15;
+        // Reset if too far out of bounds
+        const limit = 12;
+        if (Math.abs(positions[i]) > limit || Math.abs(positions[i + 1]) > limit) {
+          positions[i] = (Math.random() - 0.5) * 8;
+          positions[i + 1] = (Math.random() - 0.5) * 6;
           positions[i + 2] = (Math.random() - 0.5) * 3;
         }
       }
@@ -589,7 +591,7 @@ function AnimatedCandlestickChart({ scrollProgress }: { scrollProgress: number }
   }, [isFragmenting, isDusting]);
 
   // Enhanced dust particle system with more particles for cinematic effect
-  const dustParticleCount = 400;
+  const dustParticleCount = 120; // fewer, more prominent particles
   const dustPositions = new Float32Array(dustParticleCount * 3);
   for (let i = 0; i < dustParticleCount; i++) {
     dustPositions[i * 3] = (Math.random() - 0.5) * 18;
@@ -665,9 +667,9 @@ function AnimatedCandlestickChart({ scrollProgress }: { scrollProgress: number }
           </bufferGeometry>
           <pointsMaterial
             color="#ffffff"
-            size={0.025}
+            size={0.08}
             transparent
-            opacity={0.4}
+            opacity={0.22}
             blending={THREE.AdditiveBlending}
             sizeAttenuation={true}
             alphaTest={0.001}
