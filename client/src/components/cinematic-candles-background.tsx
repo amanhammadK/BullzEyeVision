@@ -45,7 +45,7 @@ export default function CinematicCandlesBackground() {
       const close = price + change;
       const high = Math.max(open, close) + rand() * 150;
       const low = Math.min(open, close) - rand() * 150;
-      candles.push({ open, high, low, close, x: startX + i * 15, isGreen: close > open });
+      candles.push({ open, high, low, close, x: startX + i * 22, isGreen: close > open }); // wider spacing
       price = close;
     }
     return candles;
@@ -55,7 +55,7 @@ export default function CinematicCandlesBackground() {
   const drawFrame = (ctx: CanvasRenderingContext2D, candles: Candle[], offset: number, disintegrate: number) => {
     const { width, height } = ctx.canvas;
     const centerY = height * 0.5;
-    const priceScale = 0.015; // tune height scaling
+    const priceScale = 0.03; // larger scale for bigger bodies
 
     ctx.clearRect(0, 0, width, height);
 
@@ -70,17 +70,17 @@ export default function CinematicCandlesBackground() {
 
       const bodyTop = Math.min(openY, closeY);
       const bodyBottom = Math.max(openY, closeY);
-      const bodyHeight = Math.max(bodyBottom - bodyTop, 3);
+      const bodyHeight = Math.max(bodyBottom - bodyTop, 4);
 
-      // Base colors
+      // Base colors (higher opacity for visibility)
       const baseColor = candle.isGreen ? '0,255,136' : '255,68,119';
-      const bodyColor = `rgba(${baseColor}, ${0.35})`;
-      const wickColor = `rgba(${baseColor}, ${0.3})`;
-      const outlineColor = `rgba(${baseColor}, ${0.6})`;
+      const bodyColor = `rgba(${baseColor}, ${0.6})`;
+      const wickColor = `rgba(${baseColor}, ${0.55})`;
+      const outlineColor = `rgba(${baseColor}, ${0.9})`;
 
-      // Draw wick
+      // Draw wick thicker
       ctx.strokeStyle = wickColor;
-      ctx.lineWidth = 1.5;
+      ctx.lineWidth = 2;
       ctx.beginPath();
       ctx.moveTo(x, highY);
       ctx.lineTo(x, lowY);
@@ -90,7 +90,7 @@ export default function CinematicCandlesBackground() {
       const localD = Math.min(1, Math.max(0, disintegrate - idx * 0.01));
 
       // Draw intact portion of body (shrinks as it disintegrates)
-      const intactRatio = 1 - localD * 0.85; // leave some residual
+      const intactRatio = 1 - localD * 0.95; // stronger breakup
       const intactHeight = Math.max(2, bodyHeight * intactRatio);
       const intactTop = bodyTop + (bodyHeight - intactHeight) / 2;
 
@@ -104,7 +104,7 @@ export default function CinematicCandlesBackground() {
 
       // Fragments: small shards flying outward as disintegration grows
       if (localD > 0.05) {
-        const shardCount = 10; // lightweight but cinematic
+        const shardCount = 20; // more shards for bigger look
         const rand = createSeededRandom(idx + 1000);
         for (let i = 0; i < shardCount; i++) {
           const angle = rand() * Math.PI * 2;
@@ -172,27 +172,26 @@ export default function CinematicCandlesBackground() {
     };
   }, []);
 
-  // Scroll disintegration control
+  // Scroll disintegration control (pure window scroll for reliability)
   useEffect(() => {
     const cv = canvasRef.current;
     if (!cv || typeof window === 'undefined') return;
 
-    const st = ScrollTrigger.create({
-      trigger: cv,
-      start: 'top top',
-      end: '+=150%',
-      scrub: 1,
-      onUpdate: (self) => {
-        disintegrateRef.current = self.progress; // 0..1
-        // Subtle lens blur + scale for extra drama
-        const blur = self.progress * 6;
-        const opacity = Math.max(0.28 - self.progress * 0.18, 0.08);
-        const scale = 1 + self.progress * 0.06;
-        gsap.set(cv, { filter: `blur(${blur}px)`, opacity, scale, transformOrigin: 'center center' });
-      }
-    });
-
-    return () => st.kill();
+    const onScroll = () => {
+      const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = maxScroll > 0 ? window.scrollY / maxScroll : 0;
+      disintegrateRef.current = Math.min(1, Math.max(0, progress));
+      const blur = progress * 6;
+      const opacity = Math.max(0.32 - progress * 0.2, 0.08);
+      const scale = 1 + progress * 0.06;
+      cv.style.filter = `blur(${blur}px)`;
+      cv.style.opacity = String(opacity);
+      cv.style.transform = `scale(${scale})`;
+      cv.style.transformOrigin = 'center center';
+    };
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
   return (

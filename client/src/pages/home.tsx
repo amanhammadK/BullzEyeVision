@@ -102,14 +102,44 @@ export default function Home() {
       </div>
 
       {/* Features Section */}
-      <div className="min-h-screen bg-gray-900 flex items-center justify-center">
+      <section id="features" className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <h2 className="text-6xl font-black text-white mb-6">THE EDGE YOU NEED</h2>
           <p className="text-xl text-gray-400 max-w-4xl mx-auto">
             Advanced AI technology that gives you the advantage in trading
           </p>
         </div>
-      </div>
+      </section>
+
+      {/* How It Works */}
+      <section id="how-it-works" className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <h2 className="text-6xl font-black text-white mb-6">HOW IT WORKS</h2>
+          <p className="text-xl text-gray-400 max-w-4xl mx-auto">
+            Signals, analysis, and execution—engineered for speed and precision.
+          </p>
+        </div>
+      </section>
+
+      {/* Pricing */}
+      <section id="pricing" className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <h2 className="text-6xl font-black text-white mb-6">PRICING</h2>
+          <p className="text-xl text-gray-400 max-w-4xl mx-auto">
+            Choose the plan that scales with your edge.
+          </p>
+        </div>
+      </section>
+
+      {/* Contact */}
+      <section id="contact" className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <h2 className="text-6xl font-black text-white mb-6">CONTACT</h2>
+          <p className="text-xl text-gray-400 max-w-4xl mx-auto">
+            Let’s build your trading advantage.
+          </p>
+        </div>
+      </section>
 
       {/* Soft Scroll to top button */}
       {showScrollTop && (
