@@ -34,7 +34,7 @@ export default function CinematicCandlesBackground() {
   const disintegrateRef = useRef(0); // 0..1 scroll progress
 
   // Generate synthetic candles spanning full width
-  const generateCandles = (count: number, startX: number, seed: number): Candle[] => {
+  const generateCandles = (count: number, startX: number, seed: number, spacing: number): Candle[] => {
     const rand = createSeededRandom(seed);
     const candles: Candle[] = [];
     let price = 67500;
@@ -45,7 +45,7 @@ export default function CinematicCandlesBackground() {
       const close = price + change;
       const high = Math.max(open, close) + rand() * 150;
       const low = Math.min(open, close) - rand() * 150;
-      candles.push({ open, high, low, close, x: startX + i * 22, isGreen: close > open }); // wider spacing
+      candles.push({ open, high, low, close, x: startX + i * spacing, isGreen: close > open });
       price = close;
     }
     return candles;
@@ -55,7 +55,7 @@ export default function CinematicCandlesBackground() {
   const drawFrame = (ctx: CanvasRenderingContext2D, candles: Candle[], offset: number, disintegrate: number) => {
     const { width, height } = ctx.canvas;
     const centerY = height * 0.5;
-    const priceScale = 0.03; // larger scale for bigger bodies
+    const priceScale = Math.max(0.05, Math.min(0.08, height / 12000)); // dynamic scale for screen-sized bodies
 
     ctx.clearRect(0, 0, width, height);
 
@@ -138,10 +138,11 @@ export default function CinematicCandlesBackground() {
     if (time - lastTimeRef.current >= 16.67) {
       offsetRef.current -= 1.0; // move right->left
       // Reset stream
-      if (offsetRef.current <= -450) {
+      if (offsetRef.current <= -600) {
         offsetRef.current = 0;
-        const candleCount = Math.ceil(window.innerWidth / 15) + 30;
-        candlesRef.current = generateCandles(candleCount, -450, 12345);
+        const spacing = 26; // wider columns
+        const candleCount = Math.ceil(window.innerWidth / spacing) + 40;
+        candlesRef.current = generateCandles(candleCount, -600, 12345, spacing);
       }
       drawFrame(ctx, candlesRef.current, offsetRef.current, disintegrateRef.current);
       lastTimeRef.current = time;
@@ -161,8 +162,9 @@ export default function CinematicCandlesBackground() {
     resize();
     window.addEventListener('resize', resize);
 
-    const count = Math.ceil(window.innerWidth / 15) + 30;
-    candlesRef.current = generateCandles(count, -450, 12345);
+    const spacing = 26;
+    const count = Math.ceil(window.innerWidth / spacing) + 40;
+    candlesRef.current = generateCandles(count, -600, 12345, spacing);
 
     animationRef.current = requestAnimationFrame(animate);
 
@@ -180,7 +182,9 @@ export default function CinematicCandlesBackground() {
     const onScroll = () => {
       const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
       const progress = maxScroll > 0 ? window.scrollY / maxScroll : 0;
-      disintegrateRef.current = Math.min(1, Math.max(0, progress));
+      // Start disintegration after hero (10%) and finish by 60%
+      const t = Math.max(0, Math.min(1, (progress - 0.1) / 0.5));
+      disintegrateRef.current = t;
       const blur = progress * 6;
       const opacity = Math.max(0.32 - progress * 0.2, 0.08);
       const scale = 1 + progress * 0.06;
