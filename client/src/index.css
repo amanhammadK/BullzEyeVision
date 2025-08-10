@@ -74,14 +74,6 @@
   }
 }
 
-@layer components {
-  .btn-brand {
-    @apply bg-emerald-500 hover:bg-emerald-400 text-black;
-  }
-  .link-brand-hover {
-    @apply hover:text-emerald-400;
-  }
-}
 
 
 @layer utilities {
