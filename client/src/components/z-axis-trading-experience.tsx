@@ -276,9 +276,19 @@ export default function ZAxisTradingExperience() {
               BULLZEYE
             </h1>
 
-            <p className="text-xl md:text-2xl text-gray-300 font-mono uppercase tracking-[0.3em] font-light relative z-10">
+            <p className="text-xl md:text-2xl text-gray-300 font-mono uppercase tracking-[0.3em] font-light relative z-10 mb-8">
               PRECISION TRADING INTELLIGENCE
             </p>
+            <div className="flex items-center justify-center gap-6">
+              <Button className="bg-green-500 hover:bg-green-400 text-black px-10 py-4 text-lg font-mono font-black uppercase tracking-wider rounded-none">
+                <Crosshair className="w-5 h-5 mr-3" />
+                Launch App
+              </Button>
+              <Button variant="outline" className="border-2 border-white text-white hover:bg-white hover:text-black px-10 py-4 text-lg font-mono font-black uppercase tracking-wider rounded-none">
+                <ArrowRight className="w-5 h-5 mr-3" />
+                Get Started
+              </Button>
+            </div>
           </div>
         </div>
 
@@ -429,10 +439,7 @@ export default function ZAxisTradingExperience() {
                 ACTIVATE BULLZEYE
               </Button>
 
-              <Button variant="outline" className="border-2 border-white text-white hover:bg-white hover:text-black px-12 py-6 text-xl font-mono font-black uppercase tracking-wider rounded-none">
-                <Activity className="w-6 h-6 mr-4" />
-                VIEW LIVE DEMO
-              </Button>
+
             </div>
           </div>
         </div>
