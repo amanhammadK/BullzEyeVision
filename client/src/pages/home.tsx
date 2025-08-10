@@ -6,7 +6,7 @@ import {
   ChevronUp
 } from "lucide-react";
 import { ModeToggle } from "@/components/mode-toggle";
-import CinematicCandlesBackground from "@/components/cinematic-candles-background";
+import ZAxisTradingExperience from "@/components/z-axis-trading-experience";
 
 export default function Home() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -84,62 +84,8 @@ export default function Home() {
         )}
       </nav>
 
-      {/* Simple Hero Section with Candlestick Background */}
-      <div className="min-h-screen flex items-center justify-center relative">
-        {/* Cinematic Canvas Candlestick Background with scroll disintegration */}
-        <div className="fixed inset-0 z-0">
-          <CinematicCandlesBackground />
-        </div>
-
-        {/* Hero Content */}
-        <div className="relative z-10 text-center">
-          <h1 className="text-8xl font-black text-white mb-4">BULLZEYE</h1>
-          <p className="text-2xl text-gray-300 mb-8">PRECISION TRADING INTELLIGENCE</p>
-          <button className="bg-emerald-500 hover:bg-emerald-400 text-black px-8 py-4 text-lg font-semibold rounded">
-            Get Started
-          </button>
-        </div>
-      </div>
-
-      {/* Features Section */}
-      <section id="features" className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <h2 className="text-6xl font-black text-white mb-6">THE EDGE YOU NEED</h2>
-          <p className="text-xl text-gray-400 max-w-4xl mx-auto">
-            Advanced AI technology that gives you the advantage in trading
-          </p>
-        </div>
-      </section>
-
-      {/* How It Works */}
-      <section id="how-it-works" className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <h2 className="text-6xl font-black text-white mb-6">HOW IT WORKS</h2>
-          <p className="text-xl text-gray-400 max-w-4xl mx-auto">
-            Signals, analysis, and execution—engineered for speed and precision.
-          </p>
-        </div>
-      </section>
-
-      {/* Pricing */}
-      <section id="pricing" className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <h2 className="text-6xl font-black text-white mb-6">PRICING</h2>
-          <p className="text-xl text-gray-400 max-w-4xl mx-auto">
-            Choose the plan that scales with your edge.
-          </p>
-        </div>
-      </section>
-
-      {/* Contact */}
-      <section id="contact" className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <h2 className="text-6xl font-black text-white mb-6">CONTACT</h2>
-          <p className="text-xl text-gray-400 max-w-4xl mx-auto">
-            Let’s build your trading advantage.
-          </p>
-        </div>
-      </section>
+      {/* Restored Z‑Axis Trading Experience with original sections */}
+      <ZAxisTradingExperience />
 
       {/* Soft Scroll to top button */}
       {showScrollTop && (

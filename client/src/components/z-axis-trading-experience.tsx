@@ -9,6 +9,7 @@ import TraderJourney from './trader-journey';
 import CandlestickBackground from './candlestick-background';
 import HeroCandlestickChart from './hero-candlestick-chart';
 import CandlestickChart3D from './candlestick-chart-3d';
+import CinematicCandlesBackground from '@/components/cinematic-candles-background';
 // GSAP removed - not used in this component
 // All animations are handled by Three.js useFrame hooks
 
@@ -243,42 +244,9 @@ export default function ZAxisTradingExperience() {
         />
       </div>
 
-      {/* 3D Canvas with Z-axis camera movement - BACKGROUND LAYER */}
+      {/* Cinematic Canvas Candlestick Background - BACKGROUND LAYER */}
       <div className="fixed inset-0 z-0 pointer-events-none">
-        <Canvas
-          camera={{
-            position: [0, 0, 10],
-            fov: 75,
-            near: 0.1,
-            far: 100
-          }}
-          style={{
-            width: '100%',
-            height: '100%',
-            opacity: 0.8,
-            pointerEvents: 'none'
-          }}
-        >
-          {/* Camera Controller for Z-axis movement */}
-          <CameraController cameraZ={cameraZ} velocity={velocity} isScrolling={isScrolling} />
-
-          {/* Enhanced Lighting Setup */}
-          <ambientLight intensity={0.8} />
-          <pointLight position={[10, 10, 5]} intensity={1.2} color="#00ff66" />
-          <pointLight position={[-10, -10, 5]} intensity={1.0} color="#ffffff" />
-          <directionalLight position={[0, 0, 10]} intensity={0.8} color="#ffffff" />
-
-          {/* Subtle 3D Background Elements */}
-          <BackgroundElements progress={progress} isScrolling={isScrolling} />
-
-          {/* Hero Candlestick Chart - Positioned for visibility */}
-          <group position={[0, 0, -3]}>
-            <CandlestickChart3D scrollProgress={progress} />
-          </group>
-
-          {/* Fog for depth */}
-          <fog attach="fog" args={['#000000', 5, 50]} />
-        </Canvas>
+        <CinematicCandlesBackground />
       </div>
 
       {/* HTML Section Cards Overlay */}
