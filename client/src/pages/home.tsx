@@ -6,7 +6,7 @@ import {
   ChevronUp
 } from "lucide-react";
 import { ModeToggle } from "@/components/mode-toggle";
-import { Canvas } from "@react-three/fiber";
+import CinematicCandlesBackground from "@/components/cinematic-candles-background";
 
 export default function Home() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -86,29 +86,9 @@ export default function Home() {
 
       {/* Simple Hero Section with Candlestick Background */}
       <div className="min-h-screen flex items-center justify-center relative">
-        {/* Simple 3D Candlestick Background */}
+        {/* Cinematic Canvas Candlestick Background with scroll disintegration */}
         <div className="fixed inset-0 z-0">
-          <Canvas
-            camera={{ position: [0, 0, 10], fov: 75 }}
-            style={{ width: '100%', height: '100%' }}
-          >
-            <ambientLight intensity={1.0} />
-            <pointLight position={[10, 10, 10]} intensity={1.0} />
-
-            {/* Simple Large Candlesticks */}
-            {Array.from({ length: 10 }, (_, i) => (
-              <mesh key={i} position={[(i - 4.5) * 3, 0, 0]}>
-                <boxGeometry args={[1, Math.random() * 4 + 2, 1]} />
-                <meshStandardMaterial
-                  color={Math.random() > 0.5 ? '#00ff88' : '#ff4477'}
-                  emissive={Math.random() > 0.5 ? '#00ff88' : '#ff4477'}
-                  emissiveIntensity={0.3}
-                  transparent
-                  opacity={0.7}
-                />
-              </mesh>
-            ))}
-          </Canvas>
+          <CinematicCandlesBackground />
         </div>
 
         {/* Hero Content */}
