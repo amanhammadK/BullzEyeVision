@@ -496,18 +496,20 @@ function AnimatedCandlestickChart({ scrollProgress }: { scrollProgress: number }
             const fragmentProgress = Math.min((scrollProgress - 0.1) / 0.4, 1);
             const staggeredProgress = Math.max(0, fragmentProgress - (index * 0.03));
 
-            // Simple scale and position changes only
-            candle.scale.y = THREE.MathUtils.lerp(1, 0.1, staggeredProgress);
-
-            // Store target position to avoid recalculating random values
-            if (!candle.userData.targetZ) {
-              candle.userData.targetZ = (Math.random() - 0.5) * 2;
+            // Scale down and break into fragments: move the candle off-axis as it breaks
+            candle.scale.y = THREE.MathUtils.lerp(1, 0.05, staggeredProgress);
+            if (!candle.userData.targetPos) {
+              candle.userData.targetPos = new THREE.Vector3(
+                (Math.random() - 0.5) * 4,
+                (Math.random() - 0.5) * 2,
+                (Math.random() - 0.5) * 1.2
+              );
             }
-            candle.position.z = THREE.MathUtils.lerp(0, candle.userData.targetZ, staggeredProgress);
+            candle.position.lerp(candle.userData.targetPos, 0.02);
 
             const material = candle.material as THREE.MeshStandardMaterial;
             if (material) {
-              material.opacity = THREE.MathUtils.lerp(0.8, 0.2, staggeredProgress);
+              material.opacity = THREE.MathUtils.lerp(0.8, 0.02, staggeredProgress);
             }
           } else if (isDusting) {
             // Fade out completely
@@ -641,13 +643,31 @@ function AnimatedCandlestickChart({ scrollProgress }: { scrollProgress: number }
               />
             </mesh>
 
-            {/* Fragment system - DISABLED to isolate rotateZ errors */}
-            {false && isFragmenting && (
+            {/* Fragment system - ENABLED: few larger low-opacity shards */}
+            {(isFragmenting || isDusting) && (
               <group
                 key={`fragments-${index}`}
                 ref={el => { if (el) fragmentGroupsRef.current[index] = el; }}
               >
-                {/* Fragments disabled for debugging */}
+                {candle.fragments?.map((frag, fidx) => (
+                  <mesh
+                    key={`frag-${index}-${fidx}`}
+                    position={[frag.position.x, frag.position.y, frag.position.z]}
+                    castShadow={false}
+                    receiveShadow={false}
+                  >
+                    <boxGeometry args={[0.12, 0.12, 0.12]} />
+                    <meshStandardMaterial
+                      color={candle.isGreen ? '#00ff88' : '#ff4477'}
+                      transparent
+                      opacity={0.28}
+                      emissive={candle.isGreen ? '#003322' : '#330022'}
+                      emissiveIntensity={0.25}
+                      metalness={0.1}
+                      roughness={0.7}
+                    />
+                  </mesh>
+                ))}
               </group>
             )}
           </group>
