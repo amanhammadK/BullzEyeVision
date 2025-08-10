@@ -6,7 +6,7 @@ import {
   ChevronUp
 } from "lucide-react";
 import { ModeToggle } from "@/components/mode-toggle";
-import CinematicTradingExperience from "@/components/cinematic-trading-experience";
+import { Canvas } from "@react-three/fiber";
 
 export default function Home() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -84,8 +84,52 @@ export default function Home() {
         )}
       </nav>
 
-      {/* Cinematic Trading Experience - Main Hero */}
-      <CinematicTradingExperience />
+      {/* Simple Hero Section with Candlestick Background */}
+      <div className="min-h-screen flex items-center justify-center relative">
+        {/* Simple 3D Candlestick Background */}
+        <div className="fixed inset-0 z-0">
+          <Canvas
+            camera={{ position: [0, 0, 10], fov: 75 }}
+            style={{ width: '100%', height: '100%' }}
+          >
+            <ambientLight intensity={1.0} />
+            <pointLight position={[10, 10, 10]} intensity={1.0} />
+
+            {/* Simple Large Candlesticks */}
+            {Array.from({ length: 10 }, (_, i) => (
+              <mesh key={i} position={[(i - 4.5) * 3, 0, 0]}>
+                <boxGeometry args={[1, Math.random() * 4 + 2, 1]} />
+                <meshStandardMaterial
+                  color={Math.random() > 0.5 ? '#00ff88' : '#ff4477'}
+                  emissive={Math.random() > 0.5 ? '#00ff88' : '#ff4477'}
+                  emissiveIntensity={0.3}
+                  transparent
+                  opacity={0.7}
+                />
+              </mesh>
+            ))}
+          </Canvas>
+        </div>
+
+        {/* Hero Content */}
+        <div className="relative z-10 text-center">
+          <h1 className="text-8xl font-black text-white mb-4">BULLZEYE</h1>
+          <p className="text-2xl text-gray-300 mb-8">PRECISION TRADING INTELLIGENCE</p>
+          <button className="bg-emerald-500 hover:bg-emerald-400 text-black px-8 py-4 text-lg font-semibold rounded">
+            Get Started
+          </button>
+        </div>
+      </div>
+
+      {/* Features Section */}
+      <div className="min-h-screen bg-gray-900 flex items-center justify-center">
+        <div className="text-center">
+          <h2 className="text-6xl font-black text-white mb-6">THE EDGE YOU NEED</h2>
+          <p className="text-xl text-gray-400 max-w-4xl mx-auto">
+            Advanced AI technology that gives you the advantage in trading
+          </p>
+        </div>
+      </div>
 
       {/* Soft Scroll to top button */}
       {showScrollTop && (
