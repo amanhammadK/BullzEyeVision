@@ -6,9 +6,7 @@ import { ArrowRight, BarChart3, Zap, Shield, Target, Brain, Activity, Crosshair,
 import * as THREE from 'three';
 import ProblemSolutionInteractive from './problem-solution-interactive';
 import TraderJourney from './trader-journey';
-import StrategyBuilder from './strategy-builder';
-import PatternHunt from './pattern-hunt';
-import TradeSimulator from './trade-simulator';
+
 import CandlestickBackground from './candlestick-background';
 import HeroCandlestickChart from './hero-candlestick-chart';
 import CandlestickChart3D from './candlestick-chart-3d';
@@ -42,7 +40,7 @@ function useZAxisScroll() {
 
       // Map scroll to Z-axis camera position (moving forward through scenes)
       const cameraZ = 10 - (progress * 40); // Start at Z=10, move to Z=-30
-      const section = Math.floor(progress * 8); // 8 sections
+      const section = Math.floor(progress * 5); // 5 sections
 
       setScrollData({
         progress,
@@ -411,7 +409,8 @@ export default function ZAxisTradingExperience() {
           </div>
         </div>
 
-        {/* Gamified: Strategy Builder */}
+
+        {/* CTA Section */}
         <div
           className="h-screen flex items-center justify-center"
           style={{
@@ -421,66 +420,9 @@ export default function ZAxisTradingExperience() {
             pointerEvents: section === 4 ? 'auto' : 'none'
           }}
         >
-          <div className="max-w-7xl mx-auto px-8 w-full">
-            <div className="text-center mb-10">
-              <div className="text-[#398848] font-mono text-sm uppercase tracking-[0.3em] mb-4 opacity-80">[ 05 ]</div>
-              <h2 className="text-4xl md:text-5xl font-black text-white font-mono tracking-tight">Strategy Builder</h2>
-            </div>
-            <StrategyBuilder />
-          </div>
-        </div>
-
-        {/* Gamified: Pattern Hunt */}
-        <div
-          className="h-screen flex items-center justify-center"
-          style={{
-            opacity: section === 5 ? 1 : 0,
-            transform: `translateY(${section === 5 ? 0 : 30}px) scale(${section === 5 ? 1 : 0.97})`,
-            transition: 'all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
-            pointerEvents: section === 5 ? 'auto' : 'none'
-          }}
-        >
-          <div className="max-w-7xl mx-auto px-8 w-full">
-            <div className="text-center mb-10">
-              <div className="text-[#398848] font-mono text-sm uppercase tracking-[0.3em] mb-4 opacity-80">[ 06 ]</div>
-              <h2 className="text-4xl md:text-5xl font-black text-white font-mono tracking-tight">Pattern Hunt</h2>
-            </div>
-            <PatternHunt />
-          </div>
-        </div>
-
-        {/* Gamified: Trade Simulator */}
-        <div
-          className="h-screen flex items-center justify-center"
-          style={{
-            opacity: section === 6 ? 1 : 0,
-            transform: `translateY(${section === 6 ? 0 : 30}px) scale(${section === 6 ? 1 : 0.97})`,
-            transition: 'all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
-            pointerEvents: section === 6 ? 'auto' : 'none'
-          }}
-        >
-          <div className="max-w-7xl mx-auto px-8 w-full">
-            <div className="text-center mb-10">
-              <div className="text-[#398848] font-mono text-sm uppercase tracking-[0.3em] mb-4 opacity-80">[ 07 ]</div>
-              <h2 className="text-4xl md:text-5xl font-black text-white font-mono tracking-tight">Trade Simulator</h2>
-            </div>
-            <TradeSimulator />
-          </div>
-        </div>
-
-        {/* CTA Section */}
-        <div
-          className="h-screen flex items-center justify-center"
-          style={{
-            opacity: section === 7 ? 1 : 0,
-            transform: `translateY(${section === 7 ? 0 : 30}px) scale(${section === 7 ? 1 : 0.97})`,
-            transition: 'all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
-            pointerEvents: section === 7 ? 'auto' : 'none'
-          }}
-        >
           <div className="text-center max-w-4xl mx-auto px-8">
-            <div className="text-[#398848] font-mono text-sm uppercase tracking-[0.3em] mb-6 opacity-80">
-              [ 08 ]
+            <div className="text-green-400 font-mono text-sm uppercase tracking-[0.3em] mb-6 opacity-60">
+              [ 05 ]
             </div>
             <h2 className="text-5xl md:text-6xl lg:text-7xl font-black text-white font-mono tracking-tight leading-none mb-8">
               READY TO<br/>
