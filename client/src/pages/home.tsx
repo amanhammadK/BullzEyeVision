@@ -35,18 +35,18 @@ export default function Home() {
             <div className="flex items-center">
               <div className="text-2xl font-semibold tracking-wide">
                 <span className="text-white">BULLZ</span>
-                <span className="text-[#22C55E]">EYE</span>
+                <span className="text-[#398848]">EYE</span>
               </div>
             </div>
 
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center space-x-6">
-              <a href="#features" className="text-white/80 hover:text-emerald-400 transition-colors font-medium text-sm">Features</a>
-              <a href="#how-it-works" className="text-white/80 hover:text-emerald-400 transition-colors font-medium text-sm">How It Works</a>
-              <a href="#pricing" className="text-white/80 hover:text-emerald-400 transition-colors font-medium text-sm">Pricing</a>
-              <a href="#contact" className="text-white/80 hover:text-emerald-400 transition-colors font-medium text-sm">Contact</a>
+              <a href="#features" className="text-white/80 hover:text-[#398848] transition-colors font-medium text-sm">Features</a>
+              <a href="#how-it-works" className="text-white/80 hover:text-[#398848] transition-colors font-medium text-sm">How It Works</a>
+              <a href="#pricing" className="text-white/80 hover:text-[#398848] transition-colors font-medium text-sm">Pricing</a>
+              <a href="#contact" className="text-white/80 hover:text-[#398848] transition-colors font-medium text-sm">Contact</a>
               <ModeToggle />
-              <Button className="bg-emerald-500 hover:bg-emerald-400 text-black px-6 py-2 text-sm font-medium rounded-lg transition-all duration-200">
+              <Button className="bg-[#398848] hover:bg-[#2e6b38] text-white px-6 py-2 text-sm font-medium rounded-lg transition-all duration-200">
                 Launch App
               </Button>
             </div>
@@ -58,7 +58,7 @@ export default function Home() {
                 variant="ghost"
                 size="sm"
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className="text-white hover:text-emerald-400 p-2"
+                className="text-white hover:text-[#398848] p-2"
               >
                 {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
               </Button>
@@ -91,7 +91,7 @@ export default function Home() {
       {showScrollTop && (
         <Button
           onClick={scrollToTop}
-          className="fixed bottom-8 right-8 z-50 w-12 h-12 bg-emerald-500 hover:bg-emerald-400 text-black rounded-full transition-all duration-200"
+          className="fixed bottom-8 right-8 z-50 w-12 h-12 bg-[#d60c16] hover:bg-[#b50a13] text-white rounded-full transition-all duration-200"
           size="sm"
           aria-label="Scroll to top"
         >
