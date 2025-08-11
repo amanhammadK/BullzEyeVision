@@ -253,8 +253,7 @@ export default function ZAxisTradingExperience() {
       {/* HTML Section Cards Overlay */}
       <div className="relative z-30">
         {/* Hero Section */}
-        <div
-          className="h-screen flex items-center justify-center relative"
+        <div id="hero" className="h-screen flex items-center justify-center relative scroll-mt-24"
           style={{
             opacity: section === 0 ? 1 : 0,
             transform: `translateY(${section === 0 ? 0 : 30}px) scale(${section === 0 ? 1 : 0.97})`,
@@ -291,8 +290,7 @@ export default function ZAxisTradingExperience() {
         </div>
 
         {/* Core Technology Section */}
-        <div
-          className="h-screen flex items-center justify-center"
+        <div id="features" className="h-screen flex items-center justify-center scroll-mt-24"
           style={{
             opacity: section === 1 ? 1 : 0,
             transform: `translateY(${section === 1 ? 0 : 30}px) scale(${section === 1 ? 1 : 0.97})`,
@@ -370,8 +368,7 @@ export default function ZAxisTradingExperience() {
         </div>
 
         {/* Problem-Solution Interactive Section */}
-        <div
-          className="h-screen flex items-center justify-center"
+        <div id="how-it-works" className="h-screen flex items-center justify-center scroll-mt-24"
           style={{
             opacity: section === 2 ? 1 : 0,
             transform: `translateY(${section === 2 ? 0 : 30}px) scale(${section === 2 ? 1 : 0.97})`,
@@ -390,8 +387,7 @@ export default function ZAxisTradingExperience() {
         </div>
 
         {/* Trader Journey Section */}
-        <div
-          className="h-screen flex items-center justify-center"
+        <div id="journey" className="h-screen flex items-center justify-center scroll-mt-24"
           style={{
             opacity: section === 3 ? 1 : 0,
             transform: `translateY(${section === 3 ? 0 : 30}px) scale(${section === 3 ? 1 : 0.97})`,
@@ -411,8 +407,7 @@ export default function ZAxisTradingExperience() {
 
 
         {/* CTA Section */}
-        <div
-          className="h-screen flex items-center justify-center"
+        <div id="cta" className="h-screen flex items-center justify-center scroll-mt-24"
           style={{
             opacity: section === 4 ? 1 : 0,
             transform: `translateY(${section === 4 ? 0 : 30}px) scale(${section === 4 ? 1 : 0.97})`,

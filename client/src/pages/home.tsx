@@ -41,10 +41,11 @@ export default function Home() {
 
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center space-x-6">
+              <a href="#hero" className="text-white/80 hover:text-[#398848] transition-colors font-medium text-sm">Hero</a>
               <a href="#features" className="text-white/80 hover:text-[#398848] transition-colors font-medium text-sm">Features</a>
               <a href="#how-it-works" className="text-white/80 hover:text-[#398848] transition-colors font-medium text-sm">How It Works</a>
-              <a href="#pricing" className="text-white/80 hover:text-[#398848] transition-colors font-medium text-sm">Pricing</a>
-              <a href="#contact" className="text-white/80 hover:text-[#398848] transition-colors font-medium text-sm">Contact</a>
+              <a href="#journey" className="text-white/80 hover:text-[#398848] transition-colors font-medium text-sm">Journey</a>
+              <a href="#cta" className="text-white/80 hover:text-[#398848] transition-colors font-medium text-sm">Get Started</a>
               <ModeToggle />
               <Button className="bg-[#398848] hover:bg-[#2e6b38] text-white px-6 py-2 text-sm font-medium rounded-lg transition-all duration-200">
                 Launch App
@@ -70,10 +71,11 @@ export default function Home() {
         {isMobileMenuOpen && (
           <div className="md:hidden bg-black/40 backdrop-blur-md">
             <div className="px-4 pt-4 pb-6 space-y-3">
-              <a href="#features" className="block px-4 py-2 text-white/80 hover:text-emerald-400 transition-colors font-medium">Features</a>
-              <a href="#how-it-works" className="block px-4 py-2 text-white/80 hover:text-emerald-400 transition-colors font-medium">How It Works</a>
-              <a href="#pricing" className="block px-4 py-2 text-white/80 hover:text-emerald-400 transition-colors font-medium">Pricing</a>
-              <a href="#contact" className="block px-4 py-2 text-white/80 hover:text-emerald-400 transition-colors font-medium">Contact</a>
+              <a href="#hero" className="block px-4 py-2 text-white/80 hover:text-[#398848] transition-colors font-medium">Hero</a>
+              <a href="#features" className="block px-4 py-2 text-white/80 hover:text-[#398848] transition-colors font-medium">Features</a>
+              <a href="#how-it-works" className="block px-4 py-2 text-white/80 hover:text-[#398848] transition-colors font-medium">How It Works</a>
+              <a href="#journey" className="block px-4 py-2 text-white/80 hover:text-[#398848] transition-colors font-medium">Journey</a>
+              <a href="#cta" className="block px-4 py-2 text-white/80 hover:text-[#398848] transition-colors font-medium">Get Started</a>
               <div className="px-4 py-4">
                 <Button className="w-full bg-emerald-500 hover:bg-emerald-400 text-black px-6 py-2 text-sm font-medium rounded-lg transition-all duration-200">
                   Get Started
