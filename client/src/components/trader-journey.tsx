@@ -88,7 +88,7 @@ export default function TraderJourney() {
   return (
     <div className="w-full max-w-7xl mx-auto px-8">
       <div className="text-center mb-16">
-        <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-white font-mono tracking-tight mb-6">
+        <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-foreground font-mono tracking-tight mb-6">
           EVERY TRADER'S SUCCESS STORY
         </h2>
         <p className="text-gray-400 font-mono text-lg uppercase tracking-[0.2em] font-light">
@@ -107,7 +107,7 @@ export default function TraderJourney() {
                 flex items-center space-x-3 px-6 py-3 rounded font-mono text-sm transition-all duration-300
                 ${selectedTrader === profile.id 
                   ? `bg-${profile.color}-500/20 border border-${profile.color}-500/50 text-${profile.color}-400` 
-                  : 'text-gray-400 hover:text-white hover:bg-white/5'
+                  : 'text-gray-700 dark:text-gray-400 hover:text-foreground hover:bg-black/5 dark:hover:bg-white/5'
                 }
               `}
             >
@@ -129,7 +129,7 @@ export default function TraderJourney() {
                 {selectedProfile.avatar}
               </div>
               <div>
-                <h3 className="text-white font-mono font-bold text-xl">{selectedProfile.name}</h3>
+                <h3 className="text-foreground font-mono font-bold text-xl">{selectedProfile.name}</h3>
                 <p className={`text-${selectedProfile.color}-400 font-mono text-sm uppercase tracking-wider`}>
                   {selectedProfile.type}
                 </p>
@@ -139,7 +139,7 @@ export default function TraderJourney() {
             <div className="space-y-4">
               <div>
                 <div className="text-gray-400 font-mono text-xs uppercase tracking-wider mb-1">SCHEDULE</div>
-                <div className="text-white font-mono text-sm">{selectedProfile.schedule}</div>
+                <div className="text-foreground font-mono text-sm">{selectedProfile.schedule}</div>
               </div>
 
               {/* Active Time Slots */}
@@ -153,7 +153,7 @@ export default function TraderJourney() {
                         px-2 py-1 font-mono text-xs border rounded transition-all duration-300
                         ${index === currentTimeSlot 
                           ? `bg-${selectedProfile.color}-500/30 border-${selectedProfile.color}-500 text-${selectedProfile.color}-400 animate-pulse` 
-                          : 'bg-gray-800/50 border-gray-600 text-gray-400'
+                          : 'bg-gray-200 dark:bg-gray-800/50 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-400'
                         }
                       `}
                     >
@@ -178,7 +178,7 @@ export default function TraderJourney() {
                   THE CHALLENGE
                 </h4>
               </div>
-              <p className="text-gray-300 font-mono text-sm leading-relaxed">
+              <p className="text-gray-700 dark:text-gray-300 font-mono text-sm leading-relaxed">
                 {selectedProfile.challenge}
               </p>
             </div>
@@ -193,7 +193,7 @@ export default function TraderJourney() {
                   BULLZEYE SOLUTION
                 </h4>
               </div>
-              <p className="text-gray-300 font-mono text-sm leading-relaxed">
+              <p className="text-gray-700 dark:text-gray-300 font-mono text-sm leading-relaxed">
                 {selectedProfile.solution}
               </p>
             </div>
@@ -208,7 +208,7 @@ export default function TraderJourney() {
                   THE RESULT
                 </h4>
               </div>
-              <p className="text-gray-300 font-mono text-sm leading-relaxed mb-4">
+              <p className="text-gray-700 dark:text-gray-300 font-mono text-sm leading-relaxed mb-4">
                 {selectedProfile.result}
               </p>
               

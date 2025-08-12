@@ -113,10 +113,10 @@ export default function ProblemSolutionInteractive() {
   return (
     <div className="w-full max-w-7xl mx-auto px-8">
       <div className="text-center mb-16">
-        <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-white font-mono tracking-tight mb-6">
+        <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-foreground font-mono tracking-tight mb-6">
           EVERY TRADER'S NIGHTMARE
         </h2>
-        <p className="text-gray-400 font-mono text-lg uppercase tracking-[0.2em] font-light">
+        <p className="text-gray-700 dark:text-gray-400 font-mono text-lg uppercase tracking-[0.2em] font-light">
           Click on your biggest trading pain point
         </p>
       </div>
@@ -147,17 +147,17 @@ export default function ProblemSolutionInteractive() {
               <div className="flex items-start space-x-4">
                 <problem.icon className="w-6 h-6 text-red-400 mt-1 flex-shrink-0" />
                 <div className="flex-1">
-                  <h3 className="text-white font-mono font-bold text-lg mb-2">
+                  <h3 className="text-foreground font-mono font-bold text-lg mb-2">
                     {problem.title}
                   </h3>
-                  <p className="text-gray-300 font-mono text-sm leading-relaxed mb-3">
+                  <p className="text-gray-700 dark:text-gray-300 font-mono text-sm leading-relaxed mb-3">
                     {problem.description}
                   </p>
                   
                   {/* Pain Level Bar */}
                   <div className="flex items-center space-x-3">
                     <span className="text-red-400 font-mono text-xs">PAIN LEVEL:</span>
-                    <div className="flex-1 bg-gray-800 h-2 rounded-full overflow-hidden">
+                    <div className="flex-1 bg-gray-300 dark:bg-gray-800 h-2 rounded-full overflow-hidden">
                       <div 
                         className="h-full bg-gradient-to-r from-red-500 to-red-400 transition-all duration-1000"
                         style={{ width: `${problem.painLevel}%` }}
@@ -182,12 +182,12 @@ export default function ProblemSolutionInteractive() {
         {/* Solution Side */}
         <div className="relative">
           {!showSolution ? (
-            <div className="flex items-center justify-center h-96 border-2 border-dashed border-gray-600 rounded-lg">
+            <div className="flex items-center justify-center h-96 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg">
               <div className="text-center">
-                <div className="text-gray-500 font-mono text-lg mb-2">
+                <div className="text-gray-600 dark:text-gray-500 font-mono text-lg mb-2">
                   Select a problem to see the solution
                 </div>
-                <div className="text-gray-600 font-mono text-sm">
+                <div className="text-gray-700 dark:text-gray-600 font-mono text-sm">
                   Click on any pain point ←
                 </div>
               </div>
@@ -207,10 +207,10 @@ export default function ProblemSolutionInteractive() {
                   <div className="flex items-start space-x-4 mb-6">
                     <selectedSolution.icon className="w-8 h-8 text-green-400 mt-1 flex-shrink-0" />
                     <div>
-                      <h3 className="text-white font-mono font-bold text-2xl mb-3">
+                      <h3 className="text-foreground font-mono font-bold text-2xl mb-3">
                         {selectedSolution.title}
                       </h3>
-                      <p className="text-gray-300 font-mono text-lg leading-relaxed mb-4">
+                      <p className="text-gray-700 dark:text-gray-300 font-mono text-lg leading-relaxed mb-4">
                         {selectedSolution.description}
                       </p>
                     </div>
@@ -220,7 +220,7 @@ export default function ProblemSolutionInteractive() {
                     <div className="text-green-400 font-mono text-sm uppercase tracking-wider mb-2">
                       RESULT:
                     </div>
-                    <div className="text-white font-mono font-bold text-lg">
+                    <div className="text-foreground font-mono font-bold text-lg">
                       {selectedSolution.benefit}
                     </div>
                   </div>

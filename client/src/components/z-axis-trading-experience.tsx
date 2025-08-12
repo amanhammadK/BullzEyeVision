@@ -268,7 +268,7 @@ export default function ZAxisTradingExperience() {
               BULLZEYE
             </h1>
 
-            <p className="text-xl md:text-2xl text-gray-300 font-mono uppercase tracking-[0.3em] font-light relative z-10 mb-8">
+            <p className="text-xl md:text-2xl text-gray-700 dark:text-gray-300 font-mono uppercase tracking-[0.3em] font-light relative z-10 mb-8">
               PRECISION TRADING INTELLIGENCE
             </p>
             <div className="flex items-center justify-center gap-6">
@@ -295,7 +295,7 @@ export default function ZAxisTradingExperience() {
               <div className="text-green-400 font-mono text-sm uppercase tracking-[0.3em] mb-4 opacity-60">
                 [ 02 ]
               </div>
-              <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-white font-mono tracking-tight mb-6">
+              <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-foreground font-mono tracking-tight mb-6">
                 THE EDGE YOU NEED
               </h2>
               <p className="text-gray-400 font-mono text-base md:text-lg uppercase tracking-[0.2em] font-light max-w-4xl mx-auto">
@@ -342,12 +342,12 @@ export default function ZAxisTradingExperience() {
                   metric: "8.5% AVG RETURN"
                 }
               ].map((feature, index) => (
-                <div key={index} className="bg-black/60 border border-white/20 p-6 backdrop-blur-sm hover:border-green-400/30 transition-all duration-300 group">
+                <div key={index} className="bg-white/80 dark:bg-black/60 border border-black/10 dark:border-white/20 p-6 backdrop-blur-sm hover:border-green-400/30 transition-all duration-300 group">
                   <feature.icon className="w-8 h-8 text-green-400 mb-4 group-hover:scale-110 transition-transform" />
                   <div className="text-green-400 font-mono text-xs uppercase tracking-wider mb-2 opacity-80">
                     {feature.metric}
                   </div>
-                  <h3 className="text-white font-mono font-bold text-lg mb-3 uppercase tracking-wider">
+                  <h3 className="text-foreground font-mono font-bold text-lg mb-3 uppercase tracking-wider">
                     {feature.title}
                   </h3>
                   <p className="text-gray-400 font-mono text-sm leading-relaxed">
@@ -411,7 +411,7 @@ export default function ZAxisTradingExperience() {
             <div className="text-green-400 font-mono text-sm uppercase tracking-[0.3em] mb-6 opacity-60">
               [ 05 ]
             </div>
-            <h2 className="text-5xl md:text-6xl lg:text-7xl font-black text-white font-mono tracking-tight leading-none mb-8">
+            <h2 className="text-5xl md:text-6xl lg:text-7xl font-black text-foreground font-mono tracking-tight leading-none mb-8">
               READY TO<br/>
               <span className="text-green-400">DOMINATE?</span>
             </h2>
@@ -432,7 +432,7 @@ export default function ZAxisTradingExperience() {
       </div>
 
       {/* Footer */}
-      <footer className="relative z-30 bg-black/90 backdrop-blur-md border-t border-white/10">
+      <footer className="relative z-30 backdrop-blur-md border-t bg-white/80 dark:bg-black/90 border-black/10 dark:border-white/10">
         <div className="max-w-7xl mx-auto px-8 py-16">
           {/* Main Footer Content */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
@@ -440,7 +440,7 @@ export default function ZAxisTradingExperience() {
             <div className="lg:col-span-2">
               <div className="flex items-center mb-6">
                 <div className="text-2xl font-bold tracking-wide">
-                  <span className="text-white">BULLZ</span>
+                  <span className="text-foreground">BULLZ</span>
                   <span className="text-emerald-400">EYE</span>
                 </div>
               </div>
