@@ -191,15 +191,7 @@ export default function ZAxisTradingExperience() {
   return (
     <div
       ref={containerRef}
-      className="relative overflow-hidden min-h-[400vh] text-white"
-      style={{
-        background: `
-          radial-gradient(circle at 20% 20%, rgba(5, 150, 105, 0.12) 0%, transparent 50%),
-          radial-gradient(circle at 80% 80%, rgba(220, 38, 38, 0.08) 0%, transparent 50%),
-          radial-gradient(circle at 40% 60%, rgba(5, 150, 105, 0.06) 0%, transparent 50%),
-          linear-gradient(135deg, #000000 0%, #0a0a1a 25%, #000814 50%, #001122 75%, #000000 100%)
-        `
-      }}
+      className="relative overflow-hidden min-h-[400vh] text-foreground cinematic-bg"
     >
       {/* Enhanced Atmospheric Overlays */}
       <div className="absolute inset-0 pointer-events-none">
